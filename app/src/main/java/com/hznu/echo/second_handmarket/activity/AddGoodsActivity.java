@@ -54,7 +54,7 @@ public class AddGoodsActivity extends AppCompatActivity {
     @BindView(R.id.tv_type)
     TextView tvType;
     @BindView(R.id.tv_description)
-    EditText tvDescription;
+    TextView tvDescription;
     @BindView(iv_photo_show)
     ImageView ivPhotoShow;
     @BindView(R.id.take_photo)
@@ -96,7 +96,7 @@ public class AddGoodsActivity extends AppCompatActivity {
                 int[] location = new int[2];
                 view.getLocationOnScreen(location);
                 // popupWindow.showAtLocation(parentView, Gravity.CENTER, 0, 0);
-                popupWindow.showAsDropDown(view, 80, 20);
+                popupWindow.showAsDropDown(view,200,80);
                 popListOne.setAdapter(new PopAdapter(TypeData.typeLists));
                 break;
             case R.id.take_photo:
@@ -244,6 +244,7 @@ public class AddGoodsActivity extends AppCompatActivity {
                     Log.d("bmob11", "上传文件成功:" + bmobFile.getFileUrl());
                 } else {
                     ToastUtil.showAndCancel("上传文件失败：" + e.getMessage());
+                    progressdialog.dismiss();
                 }
             }
 

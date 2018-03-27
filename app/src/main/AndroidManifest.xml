@@ -34,6 +34,16 @@
         </activity>
         <activity android:name=".activity.ClassificationActivity">
         </activity>
+        <provider
+            android:authorities="com.hznu.echo.second_handmarket.fileprovider"
+            android:name="android.support.v4.content.FileProvider"
+            android:grantUriPermissions="true"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/filepaths"/>
+        </provider>
+
     </application>
 
 </manifest>

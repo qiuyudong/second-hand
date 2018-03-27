@@ -29,7 +29,6 @@
             android:textSize="20sp" />
     </RelativeLayout>
 
-
     <View
         android:layout_width="180dp"
         android:layout_height="1dp"
@@ -37,34 +36,66 @@
         android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"
         android:background="#aeaeae"></View>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp">
+
+        <ImageView
+            android:id="@+id/iv_photo_show"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/camera"
+            android:clickable="true" />
+        <TextView
+            android:id="@+id/take_photo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/iv_photo_show"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:text="添加图片"
+            android:textSize="19sp" />
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:gravity="center_vertical">
+
+        <EditText
+            android:id="@+id/tv_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint="宝贝标题"
+            android:paddingLeft="10dp"
+            android:textSize="24dp"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="5dp"
+        android:background="#aeaeae"></View>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:gravity="center_vertical">
-
-        <ImageView
-            android:layout_width="12dp"
-            android:layout_height="12dp"
-            android:layout_marginLeft="10dp"
-            android:src="@drawable/shape_point_gray" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:text="物品名>"
-            android:textColor="#000000"
-            android:textSize="18dp" />
-
         <EditText
-            android:id="@+id/tv_name"
+            android:id="@+id/tv_description"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textSize="16dp"
-            android:background="@null"/>
+            android:layout_height="100dp"
+            android:layout_marginLeft="10dp"
+            android:clickable="true"
+            android:hint="添加宝贝描述..."
+            android:textSize="16dp" />
 
     </LinearLayout>
 
@@ -80,19 +111,12 @@
         android:layout_marginTop="10dp"
         android:gravity="center_vertical">
 
-        <ImageView
-            android:layout_width="12dp"
-            android:layout_height="12dp"
-            android:layout_marginLeft="10dp"
-            android:src="@drawable/shape_point_gray" />
 
         <TextView
-            android:id="@+id/tv_select_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:clickable="true"
-            android:text="类型 >"
+            android:layout_marginLeft="10dp"
+            android:text="分类"
             android:textColor="#000000"
             android:textSize="18dp" />
 
@@ -100,9 +124,11 @@
             android:id="@+id/tv_type"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clickable="true"
-            android:gravity="center"
-            android:text="点击选择类型"
+            android:background="@null"
+            android:gravity="right"
+            android:layout_marginRight="20dp"
+            android:inputType="number|numberDecimal"
+            android:text="选择分类    >"
             android:textSize="16dp" />
 
     </LinearLayout>
@@ -119,65 +145,24 @@
         android:layout_marginTop="10dp"
         android:gravity="center_vertical">
 
-        <ImageView
-            android:layout_width="12dp"
-            android:layout_height="12dp"
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/shape_point_gray" />
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:text="定价 >"
+            android:layout_marginLeft="10dp"
+            android:text="售价"
             android:textColor="#000000"
-            android:textSize="18dp" />
+            android:textSize="18dp"/>
 
         <EditText
             android:id="@+id/tv_price"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
             android:background="@null"
-            android:gravity="center"
-            android:hint="添加价格"
-            android:textSize="16dp" />
-
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="5dp"
-        android:background="#aeaeae"></View>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:gravity="center_vertical">
-
-        <ImageView
-            android:layout_width="12dp"
-            android:layout_height="12dp"
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/shape_point_gray" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:text="描述 >"
-            android:textColor="#000000"
-            android:textSize="18dp" />
-
-        <EditText
-            android:id="@+id/tv_description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:gravity="center"
-            android:hint="添加描述信息"
-            android:textSize="16dp" />
+            android:gravity="right"
+            android:hint="设置价格    >"
+            android:inputType="numberDecimal"
+            android:textSize="16dp"/>
 
     </LinearLayout>
 
@@ -194,29 +179,6 @@
         android:layout_height="1dp"
         android:layout_marginTop="15dp"
         android:background="#aeaeae"></View>
-
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp">
-
-            <ImageView
-                android:id="@+id/iv_photo_show"
-                android:layout_width="128dp"
-                android:layout_height="128dp"
-                android:layout_centerHorizontal="true"
-                android:clickable="true" />
-            <TextView
-                android:id="@+id/take_photo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/iv_photo_show"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="5dp"
-                android:text="拍照"
-                android:textSize="19sp" />
-    </RelativeLayout>
 
     <Button
         android:id="@+id/upload_button"

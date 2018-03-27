@@ -3,6 +3,7 @@ package com.hznu.echo.second_handmarket.fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import com.hznu.echo.second_handmarket.activity.LoginActivity;
 import com.hznu.echo.second_handmarket.bean.User;
 import com.hznu.echo.second_handmarket.utils.PreferenceUtils;
 import com.hznu.echo.second_handmarket.utils.ToastUtil;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -33,9 +35,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.QueryListener;
 import cn.bmob.v3.listener.UpdateListener;
 import cn.bmob.v3.listener.UploadFileListener;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -68,6 +72,7 @@ public class UserMainFragment extends BaseFragment1 {
 
     /* 头像文件 */
     private static final String IMAGE_FILE_NAME = "temp_head_image.jpg";
+    private static final String IMAGE_PATH = Environment.getExternalStorageDirectory() +"/"+ IMAGE_FILE_NAME;
 
     /* 请求识别码 */
     private static final int CODE_GALLERY_REQUEST = 0xa0;
@@ -79,7 +84,7 @@ public class UserMainFragment extends BaseFragment1 {
     private static int output_Y = 480;
     private PopupWindow mPopWindow;//弹出窗口
 
-
+    private String objectId  = null;
 
     public static UserMainFragment newInstance(String name) {
         Bundle args = new Bundle();
@@ -94,10 +99,13 @@ public class UserMainFragment extends BaseFragment1 {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_personal_info, container, false);
         unbinder = ButterKnife.bind(this, view);
+        User user1 = BmobUser.getCurrentUser(User.class);//获取已登录的用户
+        objectId = user1.getObjectId();
         nickname.setText(PreferenceUtils.getString(getActivity(), "USER_NAME", "null"));
         sex.setText(PreferenceUtils.getString(getActivity(), "USER_SEX", "null"));
         email.setText(PreferenceUtils.getString(getActivity(), "USER_EMAIL", "null"));
         school.setText(PreferenceUtils.getString(getActivity(), "USER_SCHOOL", "null"));
+        headImage.setImageBitmap(getBitmap(IMAGE_PATH));
         return view;
     }
 
@@ -154,8 +162,7 @@ public class UserMainFragment extends BaseFragment1 {
             user.setSex(sex_);
             user.setSchool(school_);
             user.setE_mail(email_);
-            User user1 = BmobUser.getCurrentUser(User.class);//获取已登录的用户
-            user.update(user1.getObjectId(), new UpdateListener() {
+            user.update(objectId, new UpdateListener() {
                 @Override
                 public void done(BmobException e) {
                     if (e == null) {
@@ -303,8 +310,7 @@ public class UserMainFragment extends BaseFragment1 {
         if (extras != null) {
             Bitmap photo = extras.getParcelable("data");
             headImage.setImageBitmap(photo);
-            String path = saveBitmapToSDCard(photo);
-            Log.d("sss",path);
+            saveBitmapToSDCard(photo);
             uploadImage();
         }
     }
@@ -355,25 +361,27 @@ public class UserMainFragment extends BaseFragment1 {
     }
 
     private void uploadImage(){
-        String picPath = Environment.getExternalStorageDirectory() +"/"+ IMAGE_FILE_NAME;
-
-        final BmobFile bmobFile = new BmobFile(new File(picPath));
+        final BmobFile bmobFile = new BmobFile(new File(IMAGE_PATH));
         bmobFile.uploadblock(new UploadFileListener() {
-
             @Override
             public void done(BmobException e) {
                 if(e==null){
-                    //bmobFile.getFileUrl()--返回的上传文件的完整地址
-                    String path  = bmobFile.getFileUrl();
-                    Log.d("sss",path);
-
+                    User user = new User();
+                    user.setHeadPortraitPath( bmobFile.getFileUrl());
+                    user.update(objectId, new UpdateListener() {
+                        @Override
+                        public void done(BmobException e) {
+                             if(e == null){
+                                 ToastUtil.showAndCancel("上传成功");
+                             }
+                        }
+                    });
                 }else{
                     Log.d("sss",e.toString());
-
+                    ToastUtil.showAndCancel("上传头像失败--" + e.toString());
                 }
 
             }
-
             @Override
             public void onProgress(Integer value) {
                 // 返回的上传进度（百分比）
@@ -381,27 +389,60 @@ public class UserMainFragment extends BaseFragment1 {
         });
     }
 
-    public static String saveBitmapToSDCard(Bitmap bitmap) {
-        String path = Environment.getExternalStorageDirectory() + "/"+IMAGE_FILE_NAME;
-        Log.d("sss",path);
-        File file = new File(path);
+    public static void saveBitmapToSDCard(Bitmap bitmap) {
+        File file = new File(IMAGE_PATH);
         if(file.exists()){
             file.delete();
         }
         FileOutputStream fos = null;
         try {
-            fos = new FileOutputStream(path);
+            fos = new FileOutputStream(IMAGE_PATH);
             if (fos != null) {
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 90, fos);
                 fos.close();
             }
-            return path;
         } catch (Exception e) {
             Log.d("ssss",e.toString());
         }
-        return null;
     }
 
+
+    private Bitmap getBitmap(String pathString)
+    {
+        Bitmap bitmap = null;
+        try
+        {
+            File file = new File(pathString);
+            if(file.exists())
+            {  //本地读取图片
+                bitmap = BitmapFactory.decodeFile(pathString);
+            }else {
+                //从网络读取图片
+                BmobQuery<User> query = new BmobQuery<User>();
+                query.getObject(objectId, new QueryListener<User>() {
+                    @Override
+                    public void done(User user, BmobException e) {
+                      if(e == null){
+                          String path = user.getHeadPortraitPath();
+                          //加载图片
+                          Picasso.with(getActivity())
+                                  .load(path)
+                                  //加载中的图片
+                                  .placeholder(R.drawable.touxiang)
+                                  //设置加载失败的图片显示
+                                  .error(R.drawable.touxiang)
+                                  .into(headImage);
+                      }
+                    }
+                });
+
+            }
+        } catch (Exception e)
+        {
+            // TODO: handle exception
+        }
+        return bitmap;
+    }
 
 
 }

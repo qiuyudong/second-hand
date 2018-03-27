@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.hznu.echo.second_handmarket.R;
 import com.hznu.echo.second_handmarket.bean.Second_Goods;
+import com.hznu.echo.second_handmarket.utils.DateUtil;
 import com.hznu.echo.second_handmarket.utils.ToastUtil;
 import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ import butterknife.ButterKnife;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
+
 
 public class ClassificationActivity extends AppCompatActivity {
     @BindView(R.id.search)
@@ -128,17 +130,16 @@ public class ClassificationActivity extends AppCompatActivity {
 
     //实现adapter和ViewHolder
     private class GoodsHolder extends RecyclerView.ViewHolder {
-        public TextView goods_name,goods_type,goods_desc,goods_time,goods_user;
+        public TextView goods_name,goods_time,goods_user,goods_price;
         public ImageView goods_photo;
 
         public GoodsHolder(View itemView) {
             super(itemView);
             goods_photo = (ImageView) itemView.findViewById(R.id.goods_photo);
             goods_name = (TextView) itemView.findViewById(R.id.goods_name);
-            goods_type = (TextView) itemView.findViewById(R.id.goods_type);
-            goods_desc = (TextView) itemView.findViewById(R.id.goods_desc);
             goods_time = (TextView) itemView.findViewById(R.id.goods_time);
             goods_user = (TextView) itemView.findViewById(R.id.goods_user);
+            goods_price = (TextView) itemView.findViewById(R.id.goods_price);
         }
     }
 
@@ -183,10 +184,9 @@ public class ClassificationActivity extends AppCompatActivity {
                     //设置加载失败的图片显示
                     .error(R.drawable.logo)
                     .into(holder.goods_photo);
-            holder.goods_name.setText(second_goods.getName());
-            holder.goods_type.setText(second_goods.getType());
-            holder.goods_desc.setText(second_goods.getDescription());
-            holder.goods_time.setText(second_goods.getUpload_time());
+            holder.goods_name.setText("$"+second_goods.getName());
+            holder.goods_price.setText(second_goods.getPrice());
+            holder.goods_time.setText(DateUtil.timeStamp2Date(second_goods.getUpload_time(),"yyyy-MM-dd HH:mm"));
             holder.goods_user.setText(second_goods.getUpload_user_nickname());
         }
 

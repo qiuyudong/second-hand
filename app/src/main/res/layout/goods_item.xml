@@ -15,8 +15,8 @@
 
              <ImageView
                  android:id="@+id/goods_photo"
-                 android:layout_width="90dp"
-                 android:layout_height="100dp"
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent"
                  android:layout_margin="5dp"
                  android:src="@drawable/logo"/>
          </LinearLayout>
@@ -36,65 +36,66 @@
                      android:layout_width="190dp"
                      android:layout_height="match_parent"
                      android:layout_marginTop="5dp"
-                     android:layout_marginLeft="7dp"
+                     android:layout_marginLeft="10dp"
                      android:text="二手自行车"
-                     android:textColor="#000000"
-                     android:textSize="18sp"/>
-
-                 <TextView
-                     android:id="@+id/goods_type"
-                     android:layout_width="match_parent"
-                     android:layout_height="match_parent"
-                     android:layout_marginTop="5dp"
-                     android:gravity="center_horizontal"
-                     android:text="生活用品"
-                     android:textColor="#000000"
+                     android:textColor="#333333"
                      android:textSize="18sp"/>
              </LinearLayout>
 
-             <LinearLayout
+             <RelativeLayout
+                 android:layout_marginTop="10dp"
                  android:layout_width="match_parent"
-                 android:layout_height="50dp">
-
+                 android:layout_height="wrap_content">
 
                  <TextView
-                     android:id="@+id/goods_desc"
+                     android:id="@+id/goods_price"
                      android:layout_width="match_parent"
-                     android:layout_height="match_parent"
-                     android:layout_marginLeft="5dp"
-                     android:layout_marginTop="10dp"
+                     android:layout_height="wrap_content"
+                     android:layout_marginLeft="10dp"
                      android:layout_marginRight="5dp"
-                     android:text="吉林大学南二520"
-                     android:lines="2"
-                     android:ellipsize="end"
-                     android:textSize="16sp"/>
-             </LinearLayout>
+                     android:text="$12"
+                     android:textColor="#e51c23"
+                     android:textSize="22sp"/>
+                 <ImageView
+                     android:layout_width="25dp"
+                     android:layout_height="25dp"
+                     android:layout_marginRight="5dp"
+                     android:src="@drawable/seller"
+                     android:layout_toLeftOf="@id/goods_user"/>
+                 <TextView
+                     android:id="@+id/goods_user"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_marginTop="2dp"
+                     android:layout_marginRight="15dp"
+                     android:text="echo"
+                     android:layout_alignParentRight="true"
+                     android:textSize="18sp"/>
+             </RelativeLayout>
 
-             <LinearLayout
+
+             <RelativeLayout
+                 android:layout_marginTop="10dp"
                  android:layout_width="match_parent"
-                 android:layout_height="29dp">
+                 android:layout_height="match_parent">
 
                  <ImageView
-                     android:layout_width="20dp"
-                     android:layout_height="20dp"
+                     android:id="@+id/goods_time_icon"
+                     android:layout_width="25dp"
+                     android:layout_height="25dp"
                      android:layout_marginLeft="5dp"
                      android:src="@drawable/goods_time"/>
 
                  <TextView
                      android:id="@+id/goods_time"
-                     android:layout_width="180dp"
+                     android:layout_toRightOf="@id/goods_time_icon"
+                     android:layout_width="wrap_content"
                      android:layout_height="match_parent"
                      android:layout_marginLeft="5dp"
+                     android:layout_marginTop="2dp"
+                     android:textSize="18sp"
                      android:text="2013-12-12 23:32:22"/>
-
-                 <TextView
-                     android:id="@+id/goods_user"
-                     android:layout_width="match_parent"
-                     android:layout_height="match_parent"
-                     android:layout_marginRight="2dp"
-                     android:text="echo"
-                     android:textSize="15sp"/>
-             </LinearLayout>
+             </RelativeLayout>
          </LinearLayout>
     </LinearLayout>
     <View

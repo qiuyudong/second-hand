@@ -16,10 +16,29 @@ import cn.bmob.v3.BmobUser;
 public class User extends BmobUser {
     private String  sex;
     private String nickname;
-    private Integer age;
-    private Bitmap head_portrait;
+    private String headPortraitPath;
     private String e_mail;
     private String school;
+    private String studentId;
+    private Integer role;
+
+    public Integer getRole() {
+        return role;
+    }
+
+    public void setRole(Integer role) {
+        this.role = role;
+    }
+
+    public Bitmap getHead_portrait() {
+        return head_portrait;
+    }
+
+    public void setHead_portrait(Bitmap head_portrait) {
+        this.head_portrait = head_portrait;
+    }
+
+    private Bitmap head_portrait;
 
     public String getSex() {
         return sex;
@@ -37,22 +56,13 @@ public class User extends BmobUser {
         this.nickname = nickname;
     }
 
-    public Integer getAge() {
-        return age;
+    public String getHeadPortraitPath() {
+        return headPortraitPath;
     }
 
-    public void setAge(Integer age) {
-        this.age = age;
+    public void setHeadPortraitPath(String headPortraitPath) {
+        this.headPortraitPath = headPortraitPath;
     }
-
-    public Bitmap getHead_portrait() {
-        return head_portrait;
-    }
-
-    public void setHead_portrait(Bitmap head_portrait) {
-        this.head_portrait = head_portrait;
-    }
-
 
     public String getE_mail() {
         return e_mail;
@@ -70,14 +80,11 @@ public class User extends BmobUser {
         this.school = school;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "sex=" + sex +
-                ", nickname='" + nickname + '\'' +
-                ", age=" + age +
-                ", head_portrait=" + head_portrait +
-                ", school='" + school + '\'' +
-                '}';
+    public String getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(String studentId) {
+        this.studentId = studentId;
     }
 }
