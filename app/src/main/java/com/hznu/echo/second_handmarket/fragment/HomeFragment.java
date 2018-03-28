@@ -5,8 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.hznu.echo.second_handmarket.R;
 import com.hznu.echo.second_handmarket.activity.GoodsInformationActivity;
+import com.hznu.echo.second_handmarket.base.SpacesItemDecoration;
 import com.hznu.echo.second_handmarket.bean.Second_Goods;
 import com.hznu.echo.second_handmarket.utils.ToastUtil;
 import com.squareup.picasso.Picasso;
@@ -112,8 +113,10 @@ public class HomeFragment extends BaseFragment1 {
                      //初始化构造器
                      Adapter = new TaskAdapter( mSecond_goodses);
                      goodsRecyclerView.setAdapter(Adapter);
-                     RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-                     goodsRecyclerView.setLayoutManager(layoutManager);
+                     goodsRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,  StaggeredGridLayoutManager.VERTICAL));
+                     //设置item之间的间隔
+                     SpacesItemDecoration decoration=new SpacesItemDecoration(8);
+                     goodsRecyclerView.addItemDecoration(decoration);
                  }else{
                      ToastUtil.showAndCancel(e.toString());
                  }
@@ -178,7 +181,7 @@ public class HomeFragment extends BaseFragment1 {
         @Override
         public GoodsHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
-            View view = layoutInflater.inflate(R.layout.goods_item, parent, false);
+            View view = layoutInflater.inflate(R.layout.home_goods_item, parent, false);
             final GoodsHolder holder = new GoodsHolder(view);
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -197,7 +200,7 @@ public class HomeFragment extends BaseFragment1 {
         @Override
         public void onBindViewHolder(GoodsHolder holder, int position) {
             Second_Goods second_goods = goodslist.get(position);
-           String pic_uri = second_goods.getImagePath();
+            String pic_uri = second_goods.getImagePath();
             //加载图片
             Picasso.with(getActivity())
                     .load(pic_uri)
@@ -207,10 +210,10 @@ public class HomeFragment extends BaseFragment1 {
                     .error(R.drawable.logo)
                     .into(holder.goods_photo);
             holder.goods_name.setText(second_goods.getName());
-            holder.goods_type.setText(second_goods.getType());
-            holder.goods_desc.setText(second_goods.getDescription());
-            holder.goods_time.setText(second_goods.getUpload_time());
-            holder.goods_user.setText(second_goods.getUpload_user_nickname());
+//            holder.goods_type.setText(second_goods.getType());
+//            holder.goods_desc.setText(second_goods.getDescription());
+//            holder.goods_time.setText(second_goods.getUpload_time());
+//            holder.goods_user.setText(second_goods.getUpload_user_nickname());
         }
 
         @Override
