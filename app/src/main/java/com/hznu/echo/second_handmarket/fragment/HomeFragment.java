@@ -1,25 +1,22 @@
 package com.hznu.echo.second_handmarket.fragment;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.hznu.echo.second_handmarket.R;
-import com.hznu.echo.second_handmarket.activity.GoodsInformationActivity;
-import com.hznu.echo.second_handmarket.base.SpacesItemDecoration;
+import com.hznu.echo.second_handmarket.base.HomeAdapter;
+import com.hznu.echo.second_handmarket.base.RecycleViewDivider;
 import com.hznu.echo.second_handmarket.bean.Second_Goods;
 import com.hznu.echo.second_handmarket.utils.ToastUtil;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,22 +43,17 @@ public class HomeFragment extends BaseFragment1 {
     private SwipeRefreshLayout swipeRefresh;
     Unbinder unbinder;
     ProgressDialog dialog;
-    private List<Second_Goods>  mSecond_goodses = new ArrayList<>();
-    private TaskAdapter Adapter = new TaskAdapter(mSecond_goodses);
-    public static HomeFragment newInstance(String name) {
-        Bundle args = new Bundle();
-        args.putString("name", name);
-        HomeFragment fragment = new HomeFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
+    private List<Second_Goods> mSecond_goodses = new ArrayList<>();
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+        unbinder = ButterKnife.bind(this, view);
         initDate();
-        swipeRefresh = (SwipeRefreshLayout)view.findViewById(R.id.swipe_refresh);
+        initView();
+        swipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
 //        设置管理
         swipeRefresh.setColorSchemeColors(getResources().getColor(R.color.blue));
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -70,11 +62,8 @@ public class HomeFragment extends BaseFragment1 {
                 refreshList();
             }
         });
-        unbinder = ButterKnife.bind(this, view);
         return view;
     }
-
-
 
 
     private void initDate() {
@@ -90,6 +79,13 @@ public class HomeFragment extends BaseFragment1 {
 
     }
 
+    private void initView () {
+        goodsRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        goodsRecyclerView.addItemDecoration(new RecycleViewDivider(getActivity(),
+                LinearLayoutManager.VERTICAL,10, getResources().getColor(R.color.itemDivider)));
+        goodsRecyclerView.addItemDecoration(new RecycleViewDivider(getActivity(), LinearLayoutManager.HORIZONTAL,
+                10, getResources().getColor(R.color.itemDivider)));
+    }
     private void refreshList() {
         getActivity().runOnUiThread(new Runnable() {
             @Override
@@ -106,38 +102,34 @@ public class HomeFragment extends BaseFragment1 {
         query.findObjects(new FindListener<Second_Goods>() {
             @Override
             public void done(List<Second_Goods> list, BmobException e) {
-                 if(e==null){
-                     ToastUtil.showAndCancel("查询成功");
-                     dialog.dismiss();
-                     mSecond_goodses = new ArrayList<Second_Goods>(list);
-                     //初始化构造器
-                     Adapter = new TaskAdapter( mSecond_goodses);
-                     goodsRecyclerView.setAdapter(Adapter);
-                     goodsRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,  StaggeredGridLayoutManager.VERTICAL));
-                     //设置item之间的间隔
-                     SpacesItemDecoration decoration=new SpacesItemDecoration(8);
-                     goodsRecyclerView.addItemDecoration(decoration);
-                 }else{
-                     ToastUtil.showAndCancel(e.toString());
-                 }
+                if (e == null) {
+                    ToastUtil.showAndCancel("查询成功");
+                    dialog.dismiss();
+                    mSecond_goodses = new ArrayList<>(list);
+                    HomeAdapter Adapter = new HomeAdapter(mSecond_goodses, getActivity());
+                    goodsRecyclerView.setAdapter(Adapter);
+                } else {
+                    ToastUtil.showAndCancel(e.toString());
+                }
             }
         });
     }
-    private void  refreshDate(){
+
+    private void refreshDate() {
         BmobQuery<Second_Goods> query = new BmobQuery<Second_Goods>();
         query.findObjects(new FindListener<Second_Goods>() {
             @Override
             public void done(List<Second_Goods> list, BmobException e) {
-                if(e==null){
+                if (e == null) {
                     ToastUtil.showAndCancel("查询成功");
                     dialog.dismiss();
-                    mSecond_goodses = new ArrayList<Second_Goods>(list);
+                    mSecond_goodses = new ArrayList<>(list);
                     //初始化构造器
-                    Adapter = new TaskAdapter( mSecond_goodses);
+                    HomeAdapter Adapter = new HomeAdapter(mSecond_goodses, getActivity());
                     goodsRecyclerView.setAdapter(Adapter);
                     Adapter.notifyDataSetChanged();
                     swipeRefresh.setRefreshing(false);
-                }else{
+                } else {
                     ToastUtil.showAndCancel(e.toString());
                     swipeRefresh.setRefreshing(false);
                 }
@@ -150,76 +142,6 @@ public class HomeFragment extends BaseFragment1 {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
-    }
-
-    //实现adapter和ViewHolder
-    private class GoodsHolder extends RecyclerView.ViewHolder {
-        public TextView goods_name,goods_type,goods_desc,goods_time,goods_user;
-        public ImageView goods_photo;
-
-        public GoodsHolder(View itemView) {
-            super(itemView);
-            goods_photo = (ImageView) itemView.findViewById(R.id.goods_photo);
-            goods_name = (TextView) itemView.findViewById(R.id.goods_name);
-            goods_type = (TextView) itemView.findViewById(R.id.goods_type);
-            goods_desc = (TextView) itemView.findViewById(R.id.goods_desc);
-            goods_time = (TextView) itemView.findViewById(R.id.goods_time);
-            goods_user = (TextView) itemView.findViewById(R.id.goods_user);
-        }
-    }
-
-
-    private class TaskAdapter extends RecyclerView.Adapter<GoodsHolder> {
-        private List<Second_Goods> goodslist;
-
-        //构造方法，初始化列表
-        public TaskAdapter(List<Second_Goods> prolist) {
-            goodslist = prolist;
-
-        }
-
-        @Override
-        public GoodsHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
-            View view = layoutInflater.inflate(R.layout.home_goods_item, parent, false);
-            final GoodsHolder holder = new GoodsHolder(view);
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position = holder.getAdapterPosition();
-                    Second_Goods second_goods = goodslist.get(position);
-                    Intent intent = new Intent(getActivity(), GoodsInformationActivity.class);
-                    intent.putExtra("goods_id", second_goods.getObjectId());
-                    startActivity(intent);
-                    ToastUtil.showAndCancel("点击了");
-                }
-            });
-            return holder;
-        }
-
-        @Override
-        public void onBindViewHolder(GoodsHolder holder, int position) {
-            Second_Goods second_goods = goodslist.get(position);
-            String pic_uri = second_goods.getImagePath();
-            //加载图片
-            Picasso.with(getActivity())
-                    .load(pic_uri)
-                    //加载中的图片
-                    .placeholder(R.drawable.logo)
-                    //设置加载失败的图片显示
-                    .error(R.drawable.logo)
-                    .into(holder.goods_photo);
-            holder.goods_name.setText(second_goods.getName());
-//            holder.goods_type.setText(second_goods.getType());
-//            holder.goods_desc.setText(second_goods.getDescription());
-//            holder.goods_time.setText(second_goods.getUpload_time());
-//            holder.goods_user.setText(second_goods.getUpload_user_nickname());
-        }
-
-        @Override
-        public int getItemCount() {
-            return goodslist.size();
-        }
     }
 
 

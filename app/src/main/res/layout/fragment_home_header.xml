@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/hearder_container"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="340dp">
+    <com.youth.banner.Banner
+        android:id="@+id/banner"
+        android:layout_width="match_parent"
+        android:layout_height="300dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:background="@color/blue"
+        android:layout_height="40dp">
+        <Button
+            android:id="@+id/newGoods"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="最近发布"/>
+        <Button
+            android:id="@+id/hotGoods"
+             android:text="最热的"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,26 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
-        <FrameLayout
-            android:background="@color/white"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
-            android:gravity="center" >
-            <EditText
-                android:id="@+id/search"
-                android:background="@null"
-                android:layout_width="fill_parent"
-                android:layout_height="40dp"
-                android:maxLength="20"
-                android:hint="搜索"
-                android:paddingLeft="35dp"
-                android:paddingRight="60dp" >
-            </EditText>
-        </FrameLayout>
 
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:background="@color/white"
+        android:gravity="center">
+
+        <EditText
+            android:id="@+id/search"
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:background="@null"
+            android:hint="搜索"
+            android:maxLength="20"
+            android:paddingLeft="35dp"
+            android:paddingRight="60dp"></EditText>
+    </FrameLayout>
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh"

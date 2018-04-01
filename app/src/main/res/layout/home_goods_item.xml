@@ -1,18 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
- <LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="220dp"
+    android:layout_height="240dp"
+    android:layout_marginLeft="5dp"
     android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/user_head_portrait"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/touxiang" />
+
+        <TextView
+            android:id="@+id/user_nickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:text="狮子座"
+            android:textColor="@color/black"
+            android:layout_toRightOf="@id/user_head_portrait"
+            android:textSize="20sp"
+            />
+
+        <ImageView
+            android:id="@+id/male"
+            android:layout_toRightOf="@id/user_nickname"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="13dp"
+            android:layout_width="20dp"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:src="@drawable/male" />
+
+        <ImageView
+            android:id="@+id/female"
+            android:layout_toRightOf="@id/user_nickname"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="8dp"
+            android:layout_width="20dp"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            android:src="@drawable/female" />
+        <TextView
+            android:id="@+id/goods_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/user_head_portrait"
+            android:layout_below="@id/user_nickname"
+            android:text="半小时前发布"/>
+    </RelativeLayout>
+
     <ImageView
         android:id="@+id/goods_photo"
         android:layout_width="match_parent"
-        android:src="@drawable/logo"
-        android:layout_height="170dp"/>
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:src="@drawable/touxiang" />
+
     <TextView
         android:id="@+id/goods_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="21sp"
-        android:text="qiuyudongsad"/>
+        android:text="传递安德森"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/text"
+        android:textSize="21sp" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp">
+        <TextView
+            android:id="@+id/user_price"
+            android:textColor="@color/pricecolor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="21sp"
+            android:text="¥15"/>
+        <ImageView
+            android:src="@drawable/liked"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
 </LinearLayout>

@@ -17,5 +17,10 @@
     <color name="green">#0f0</color>
     <color name="gray">#ccc</color>
     <color name="white">#FFFFFF</color>
+    <color name="text">#333333</color>
+    <color name="textShallow">#666666</color>
+    <color name="textShallower">#999999</color>
+    <color name="pricecolor">#D33630</color>
+    <color name="itemDivider">#999999</color>
 
 </resources>
