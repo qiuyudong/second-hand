@@ -1,36 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
     <ScrollView
         android:id="@+id/myScrollView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
+
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <ImageView
-                android:id="@+id/car_goods"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:scaleType="fitXY"
-                android:src="@drawable/car_goods"/>
-            <ImageView
-                android:id="@+id/study_goods"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/text_trans"
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:layout_margin="15dp"
+                        android:layout_centerInParent="true"
+                        android:text="出行物品"
+                        android:textColor="@color/textShallow" />
+                    <View
+                        android:layout_width="60dp"
+                        android:layout_height="1dp"
+                        android:layout_toLeftOf="@id/text_trans"
+                        android:layout_centerVertical="true"
+                        android:background="@color/black" />
+                    <View
+                        android:layout_width="60dp"
+                        android:layout_height="1dp"
+                        android:layout_toRightOf="@id/text_trans"
+                        android:layout_centerVertical="true"
+                        android:background="@color/black" />
+                </RelativeLayout>
+
+                <ImageView
+                    android:id="@+id/car_goods"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/car_goods" />
+            </LinearLayout>
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:scaleType="fitXY"
-                android:src="@drawable/study_goods"/>
-            <ImageView
-                android:id="@+id/life_goods"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/text_study"
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:layout_margin="15dp"
+                        android:layout_centerInParent="true"
+                        android:text="学习物品"
+                        android:textColor="@color/textShallow" />
+                    <View
+                        android:layout_width="60dp"
+                        android:layout_height="1dp"
+                        android:layout_toLeftOf="@id/text_study"
+                        android:layout_centerVertical="true"
+                        android:background="@color/black" />
+                    <View
+                        android:layout_width="60dp"
+                        android:layout_height="1dp"
+                        android:layout_toRightOf="@id/text_study"
+                        android:layout_centerVertical="true"
+                        android:background="@color/black" />
+                </RelativeLayout>
+
+                <ImageView
+                    android:id="@+id/study_goods"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/study_goods" />
+            </LinearLayout>
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:scaleType="fitXY"
-                android:src="@drawable/life_goods"/>
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/text_life"
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:layout_margin="15dp"
+                        android:layout_centerInParent="true"
+                        android:text="生活用品"
+                        android:textColor="@color/textShallow" />
+                    <View
+                        android:layout_width="60dp"
+                        android:layout_height="1dp"
+                        android:layout_toLeftOf="@id/text_life"
+                        android:layout_centerVertical="true"
+                        android:background="@color/black" />
+                    <View
+                        android:layout_width="60dp"
+                        android:layout_height="1dp"
+                        android:layout_toRightOf="@id/text_life"
+                        android:layout_centerVertical="true"
+                        android:background="@color/black" />
+                </RelativeLayout>
+
+                <ImageView
+                    android:id="@+id/life_goods"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/life_goods" />
+            </LinearLayout>
+
         </LinearLayout>
 
-  </ScrollView>
+    </ScrollView>
 </LinearLayout>

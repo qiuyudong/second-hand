@@ -2,8 +2,8 @@ package com.hznu.echo.second_handmarket.base;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -86,10 +86,10 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             ((GoodsHolder) holder).goods_name.setText(second_goods.getName());
             return;
         } else {
-            // 获取cardview的布局属性，记住这里要是布局的最外层的控件的布局属性，如果是里层的会报cast错误
-            StaggeredGridLayoutManager.LayoutParams clp = (StaggeredGridLayoutManager.LayoutParams) ((HeaderHolder)holder).hearder_container.getLayoutParams();
-            // 最最关键一步，设置当前view占满列数，这样就可以占据两列实现头部了
-            clp.setFullSpan(true);
+//            // 获取cardview的布局属性，记住这里要是布局的最外层的控件的布局属性，如果是里层的会报cast错误
+//            StaggeredGridLayoutManager.LayoutParams clp = (StaggeredGridLayoutManager.LayoutParams) ((HeaderHolder)holder).hearder_container.getLayoutParams();
+//            // 最最关键一步，设置当前view占满列数，这样就可以占据两列实现头部了
+//            clp.setFullSpan(true);
             Banner banner = ((HeaderHolder)holder).banner;
             //设置图片加载器
             banner.setImageLoader(new GlideImageLoader());
@@ -153,6 +153,27 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         } else {
             return TYPE_ITEM;
         }
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+
+        if (layoutManager instanceof GridLayoutManager){
+            final GridLayoutManager gridManager = ((GridLayoutManager) layoutManager);
+            gridManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                @Override
+                public int getSpanSize(int position) {
+                    if (getItemViewType(position) == TYPE_HEADER){
+                        return 2;
+                    }else{
+                        return 1;
+                    }
+                }
+            });
+        }
+
     }
 
     //实现adapter和ViewHolder的列表布局

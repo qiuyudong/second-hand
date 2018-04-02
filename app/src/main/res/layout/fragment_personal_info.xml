@@ -5,15 +5,27 @@
               android:layout_height="match_parent">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="190dp"
         android:background="@color/blue">
         <de.hdodenhof.circleimageview.CircleImageView
           android:id="@+id/imageView"
           android:layout_width="match_parent"
-          android:layout_height="100dp"
+          android:layout_height="80dp"
           android:src="@drawable/touxiang"
           android:layout_centerInParent="true"
          />
+        <Button
+            android:id="@+id/logout"
+            android:layout_width="240dp"
+            android:layout_height="40dp"
+            android:layout_below="@id/imageView"
+            android:background="@drawable/buttonsecond"
+            android:text="退出登录"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/blue"
+            android:layout_margin="5dp"
+            android:textSize="16dp"/>
+
     </RelativeLayout>
 
     <LinearLayout
@@ -21,144 +33,168 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:orientation="vertical">
-
-        <LinearLayout
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:text="昵称 :"
-                android:textSize="18dp"/>
-            <EditText
-                android:id="@+id/nickname"
-                android:focusable="false"
-                android:background="@null"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="5dp"
-            android:background="@color/grey"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            >
-
-            <TextView
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:text="性别 :"
-                android:textSize="18dp"/>
-
-            <EditText
-                android:id="@+id/sex"
-                android:focusable="false"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@null"/>
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="5dp"
-            android:background="@color/grey"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            >
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:text="邮箱 : "
-                android:textSize="18dp"/>
-            <EditText
-                android:id="@+id/email"
-                android:focusable="false"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                />
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="5dp"
-            android:background="@color/grey"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:text="学校 :"
-                android:textSize="18dp"/>
-            <EditText
-                android:id="@+id/school"
-                android:focusable="false"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@null"/>
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="5dp"
-            android:background="@color/grey"/>
+            android:textColor="@color/blue"
+            android:textSize="17dp"
+            android:gravity="center"
+            android:text="欢迎来到个人中心~"/>
     </LinearLayout>
+        <RelativeLayout
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            >
+           <ImageView
+               android:id="@+id/check_pic"
+               android:layout_marginLeft="5dp"
+               android:layout_width="30dp"
+               android:layout_height="wrap_content"
+               android:src="@drawable/check"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_toRightOf="@id/check_pic"
+                android:gravity="center_vertical"
+                android:textColor="@color/blue"
+                android:textSize="17dp"
+                android:layout_marginLeft="20dp"
+                android:text="待审核"/>
+            <TextView
+                android:textColor="@color/blue"
+                android:textSize="17dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="50dp"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:gravity="center_vertical"
+                android:text="1  >"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginRight="40dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/blue"/>
+        </RelativeLayout>
 
-    <Button
-        android:id="@+id/edit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/shape"
-        android:text="编辑"
-        android:textColor="@color/white"
-        android:layout_margin="5dp"
-        android:textSize="20dp"/>
-    <Button
-        android:id="@+id/save"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/shape"
-        android:text="保存"
-        android:visibility="gone"
-        android:textColor="@color/white"
-        android:layout_margin="5dp"
-        android:textSize="20dp"/>
-    <Button
-        android:id="@+id/logout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/shape"
-        android:text="退出登录"
-        android:textColor="@color/white"
-        android:layout_margin="5dp"
-        android:textSize="20dp"/>
+        <RelativeLayout
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            >
+            <ImageView
+                android:id="@+id/published_pic"
+                android:layout_marginLeft="5dp"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/published"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_toRightOf="@id/published_pic"
+                android:gravity="center_vertical"
+                android:textColor="@color/blue"
+                android:textSize="17dp"
+                android:layout_marginLeft="20dp"
+                android:text="已发布"/>
+            <TextView
+                android:textColor="@color/blue"
+                android:textSize="17dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="50dp"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:gravity="center_vertical"
+                android:text="1  >"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginRight="40dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/blue"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            >
+            <ImageView
+                android:id="@+id/liked_pic"
+                android:layout_marginLeft="5dp"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/liked_set"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_toRightOf="@id/liked_pic"
+                android:gravity="center_vertical"
+                android:textColor="@color/blue"
+                android:textSize="17dp"
+                android:layout_marginLeft="20dp"
+                android:text="我喜欢的"/>
+            <TextView
+                android:textColor="@color/blue"
+                android:textSize="17dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="50dp"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:gravity="center_vertical"
+                android:text="1  >"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginRight="40dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/blue"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            >
+            <ImageView
+                android:id="@+id/setting_pic"
+                android:layout_marginLeft="5dp"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/setting"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_toRightOf="@id/setting_pic"
+                android:gravity="center_vertical"
+                android:textColor="@color/blue"
+                android:textSize="17dp"
+                android:layout_marginLeft="20dp"
+                android:text="待审核"/>
+            <TextView
+                android:textColor="@color/blue"
+                android:textSize="17dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="50dp"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:gravity="center_vertical"
+                android:text="1  >"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginRight="40dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/blue"/>
+        </RelativeLayout>
 
 </LinearLayout>

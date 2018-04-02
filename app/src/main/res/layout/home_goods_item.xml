@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="240dp"
-    android:layout_marginLeft="5dp"
     android:orientation="vertical">
 
     <RelativeLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="70dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -58,21 +57,21 @@
 
     <ImageView
         android:id="@+id/goods_photo"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="100dp"
         android:layout_gravity="center"
         android:src="@drawable/touxiang" />
 
     <TextView
         android:id="@+id/goods_name"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="传递安德森"
         android:layout_marginTop="10dp"
         android:textColor="@color/text"
         android:textSize="21sp" />
     <RelativeLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="30dp">
         <TextView
             android:id="@+id/user_price"

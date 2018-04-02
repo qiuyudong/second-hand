@@ -4,9 +4,8 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,6 @@ import android.widget.EditText;
 
 import com.hznu.echo.second_handmarket.R;
 import com.hznu.echo.second_handmarket.base.HomeAdapter;
-import com.hznu.echo.second_handmarket.base.RecycleViewDivider;
 import com.hznu.echo.second_handmarket.bean.Second_Goods;
 import com.hznu.echo.second_handmarket.utils.ToastUtil;
 
@@ -43,6 +41,7 @@ public class HomeFragment extends BaseFragment1 {
     private SwipeRefreshLayout swipeRefresh;
     Unbinder unbinder;
     ProgressDialog dialog;
+    private HomeAdapter homeAdapter;
     private List<Second_Goods> mSecond_goodses = new ArrayList<>();
 
 
@@ -80,11 +79,12 @@ public class HomeFragment extends BaseFragment1 {
     }
 
     private void initView () {
-        goodsRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
-        goodsRecyclerView.addItemDecoration(new RecycleViewDivider(getActivity(),
-                LinearLayoutManager.VERTICAL,10, getResources().getColor(R.color.itemDivider)));
-        goodsRecyclerView.addItemDecoration(new RecycleViewDivider(getActivity(), LinearLayoutManager.HORIZONTAL,
-                10, getResources().getColor(R.color.itemDivider)));
+        goodsRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(),2));
+//        goodsRecyclerView.addItemDecoration(new ItemDecorationAlbumColumns(
+//                10,
+//                10));
+//        goodsRecyclerView.addItemDecoration(new RecycleViewDivider(getActivity(), LinearLayoutManager.HORIZONTAL,
+//                10, getResources().getColor(R.color.itemDivider)));
     }
     private void refreshList() {
         getActivity().runOnUiThread(new Runnable() {
@@ -106,8 +106,8 @@ public class HomeFragment extends BaseFragment1 {
                     ToastUtil.showAndCancel("查询成功");
                     dialog.dismiss();
                     mSecond_goodses = new ArrayList<>(list);
-                    HomeAdapter Adapter = new HomeAdapter(mSecond_goodses, getActivity());
-                    goodsRecyclerView.setAdapter(Adapter);
+                    homeAdapter = new HomeAdapter(mSecond_goodses, getActivity());
+                    goodsRecyclerView.setAdapter(homeAdapter);
                 } else {
                     ToastUtil.showAndCancel(e.toString());
                 }
@@ -116,18 +116,16 @@ public class HomeFragment extends BaseFragment1 {
     }
 
     private void refreshDate() {
-        BmobQuery<Second_Goods> query = new BmobQuery<Second_Goods>();
+        BmobQuery<Second_Goods> query = new BmobQuery<>();
         query.findObjects(new FindListener<Second_Goods>() {
             @Override
             public void done(List<Second_Goods> list, BmobException e) {
                 if (e == null) {
                     ToastUtil.showAndCancel("查询成功");
                     dialog.dismiss();
-                    mSecond_goodses = new ArrayList<>(list);
-                    //初始化构造器
-                    HomeAdapter Adapter = new HomeAdapter(mSecond_goodses, getActivity());
-                    goodsRecyclerView.setAdapter(Adapter);
-                    Adapter.notifyDataSetChanged();
+                    mSecond_goodses.clear();
+                    mSecond_goodses.addAll(list);
+                    homeAdapter.notifyDataSetChanged();
                     swipeRefresh.setRefreshing(false);
                 } else {
                     ToastUtil.showAndCancel(e.toString());
