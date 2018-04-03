@@ -14,13 +14,13 @@ import cn.bmob.v3.BmobUser;
  * </pre>
  */
 public class User extends BmobUser {
-    private String  sex;
+    private String sex;
     private String nickname;
     private String headPortraitPath;
-    private String e_mail;
     private String school;
     private String studentId;
     private Integer role;
+    private String signature;
 
     public Integer getRole() {
         return role;
