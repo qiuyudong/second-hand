@@ -50,6 +50,7 @@
             android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="40dp"
+            android:id="@+id/check_rl"
             >
            <ImageView
                android:id="@+id/check_pic"
@@ -67,6 +68,7 @@
                 android:layout_marginLeft="20dp"
                 android:text="待审核"/>
             <TextView
+                android:id="@+id/check_arrow"
                 android:textColor="@color/blue"
                 android:textSize="17dp"
                 android:layout_alignParentEnd="true"
@@ -74,7 +76,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:gravity="center_vertical"
-                android:text="1  >"/>
+                android:text=">"/>
+            <TextView
+                android:id="@+id/check_number"
+                android:textColor="@color/blue"
+                android:textSize="17dp"
+                android:layout_toLeftOf="@id/check_arrow"
+                android:layout_marginRight="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:gravity="center_vertical"
+                android:text="1"/>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -84,6 +96,7 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/published_rl"
             android:layout_marginLeft="40dp"
             android:layout_marginTop="20dp"
             android:layout_width="match_parent"
@@ -105,6 +118,7 @@
                 android:layout_marginLeft="20dp"
                 android:text="已发布"/>
             <TextView
+                android:id="@+id/published_arrow"
                 android:textColor="@color/blue"
                 android:textSize="17dp"
                 android:layout_alignParentEnd="true"
@@ -112,7 +126,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:gravity="center_vertical"
-                android:text="1  >"/>
+                android:text=">"/>
+            <TextView
+                android:id="@+id/published_number"
+                android:textColor="@color/blue"
+                android:textSize="17dp"
+                android:layout_toLeftOf="@id/published_arrow"
+                android:layout_marginRight="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:gravity="center_vertical"
+                android:text="1"/>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -126,6 +150,7 @@
             android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="40dp"
+            android:id="@+id/liked_rl"
             >
             <ImageView
                 android:id="@+id/liked_pic"
@@ -144,13 +169,24 @@
                 android:text="我喜欢的"/>
             <TextView
                 android:textColor="@color/blue"
+                android:id="@+id/liked_arrow"
                 android:textSize="17dp"
                 android:layout_alignParentEnd="true"
                 android:layout_marginRight="50dp"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:gravity="center_vertical"
-                android:text="1  >"/>
+                android:text=">"/>
+            <TextView
+                android:id="@+id/liked_number"
+                android:textColor="@color/blue"
+                android:textSize="17dp"
+                android:layout_toLeftOf="@id/liked_arrow"
+                android:layout_marginRight="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:gravity="center_vertical"
+                android:text="1"/>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -164,6 +200,7 @@
             android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="40dp"
+            android:id="@+id/setting"
             >
             <ImageView
                 android:id="@+id/setting_pic"
@@ -172,15 +209,7 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/setting"/>
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_toRightOf="@id/setting_pic"
-                android:gravity="center_vertical"
-                android:textColor="@color/blue"
-                android:textSize="17dp"
-                android:layout_marginLeft="20dp"
-                android:text="待审核"/>
-            <TextView
+                android:id="@+id/setting_arrow"
                 android:textColor="@color/blue"
                 android:textSize="17dp"
                 android:layout_alignParentEnd="true"
@@ -188,7 +217,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:gravity="center_vertical"
-                android:text="1  >"/>
+                android:text=">"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_toRightOf="@id/setting_pic"
+                android:gravity="center_vertical"
+                android:textColor="@color/blue"
+                android:textSize="17dp"
+                android:layout_marginLeft="20dp"
+                android:text="设置"/>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"

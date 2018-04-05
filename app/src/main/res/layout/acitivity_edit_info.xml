@@ -53,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50dp"
                 android:layout_toRightOf="@id/nickname_tv"
-                android:background="none"
+                android:background="@null"
                 android:text="狮子座"
                 android:textColor="@color/blue"
                 android:textSize="20sp" />
@@ -94,7 +94,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50dp"
                 android:layout_toRightOf="@id/sex_tv"
-                android:background="none"
+                android:background="@null"
                 android:text="男"
                 android:textColor="@color/blue"
                 android:textSize="20sp" />
@@ -126,7 +126,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50dp"
                 android:layout_toRightOf="@id/studentid_tv"
-                android:background="none"
+                android:background="@null"
                 android:text="2014034323"
                 android:textColor="@color/blue"
                 android:textSize="20sp" />
@@ -158,7 +158,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignEnd="@+id/view"
                 android:layout_alignParentTop="true"
-                android:background="none"
+                android:background="@null"
                 android:text="qiuyudongjlu@qq.com"
                 android:textColor="@color/blue"
                 android:textSize="20sp" />
@@ -178,7 +178,7 @@
             android:layout_marginTop="30dp">
 
             <TextView
-                android:id="@+id/nickname_tv"
+                android:id="@+id/sign_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="个性签名"
@@ -186,12 +186,12 @@
                 android:textSize="20sp" />
 
             <EditText
-                android:id="@+id/nickname_et"
+                android:id="@+id/sign_et"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:layout_toRightOf="@id/nickname_tv"
-                android:background="none"
+                android:layout_toRightOf="@id/sign_tv"
+                android:background="@null"
                 android:text="I like you just like"
                 android:textColor="@color/blue"
                 android:textSize="20sp" />

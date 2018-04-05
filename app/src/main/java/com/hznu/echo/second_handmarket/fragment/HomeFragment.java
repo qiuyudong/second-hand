@@ -30,7 +30,7 @@ import cn.bmob.v3.listener.FindListener;
  * Created by beyond on 17/4/11.
  */
 
-public class HomeFragment extends BaseFragment1 {
+public class HomeFragment extends BaseFragment {
 
 
     @BindView(R.id.search)
@@ -99,6 +99,8 @@ public class HomeFragment extends BaseFragment1 {
     // 获取数据
     private void getData() {
         BmobQuery<Second_Goods> query = new BmobQuery<Second_Goods>();
+        query.include("upload_user");
+
         query.findObjects(new FindListener<Second_Goods>() {
             @Override
             public void done(List<Second_Goods> list, BmobException e) {

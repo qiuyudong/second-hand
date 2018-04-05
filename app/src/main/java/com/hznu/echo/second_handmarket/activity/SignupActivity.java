@@ -24,7 +24,7 @@ public class SignupActivity extends AppCompatActivity {
     EditText studentId;
     @BindView(R.id.user_tel)
     EditText userTel;
-    private String user_name, student_id, user_tel, password, password2;
+    private String user_name, student_id, user_email, password, password2;
     @BindView(R.id.user_name)
     EditText userName;
     @BindView(R.id.user_password)
@@ -52,7 +52,7 @@ public class SignupActivity extends AppCompatActivity {
     private void initData() {
         user_name = userName.getText().toString();
         student_id = studentId.getText().toString();
-        user_tel = userTel.getText().toString();
+        user_email = userTel.getText().toString();
         password = userPassword.getText().toString();
         password2 = userPassword2.getText().toString();
     }
@@ -60,7 +60,7 @@ public class SignupActivity extends AppCompatActivity {
     //非空判断
     private void isEmpty() {
         if (user_name.equals("") || password.equals("") || password2.equals("")
-                || student_id.equals("") || user_tel.equals("")) {
+                || student_id.equals("") || user_email.equals("")) {
             ToastUtil.showShort("不能为空");
         } else if (!password.equals(password2)) {
             ToastUtil.showShort("两次输入的密码不一致");
@@ -69,16 +69,16 @@ public class SignupActivity extends AppCompatActivity {
         }
         else {
             User user = new User();
-            user.setUsername(user_name);
+            user.setUsername(student_id);
             user.setPassword(password);
-            user.setE_mail(user_tel);
+            user.setEmail(user_email);
             user.setRole(1);
-            user.setStudentId(student_id);
+            user.setNickname(user_name);
             user.signUp(new SaveListener<User>() {
                 @Override
                 public void done(User user, BmobException e) {
                     if (e == null) {
-                        ToastUtil.showShort("注册成功!");
+                        ToastUtil.showShort("注册成功，请去邮箱激活!");
                         startActivity(new Intent(SignupActivity.this, LoginActivity.class));
                         finish();
                     } else {

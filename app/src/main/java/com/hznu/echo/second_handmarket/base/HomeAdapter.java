@@ -1,7 +1,6 @@
 package com.hznu.echo.second_handmarket.base;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,8 +13,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hznu.echo.second_handmarket.R;
-import com.hznu.echo.second_handmarket.activity.GoodsInformationActivity;
 import com.hznu.echo.second_handmarket.bean.Second_Goods;
+import com.hznu.echo.second_handmarket.bean.User;
 import com.hznu.echo.second_handmarket.utils.ToastUtil;
 import com.squareup.picasso.Picasso;
 import com.youth.banner.Banner;
@@ -23,6 +22,12 @@ import com.youth.banner.loader.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.datatype.BmobPointer;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by qiuyudong on 2018/4/1.
@@ -58,11 +63,11 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int position = holder.getAdapterPosition();
-                    Second_Goods second_goods = goodslist.get(position);
-                    Intent intent = new Intent(mcontext, GoodsInformationActivity.class);
-                    intent.putExtra("goods_id", second_goods.getObjectId());
-                    mcontext.startActivity(intent);
+//                    int position = holder.getAdapterPosition();
+//                    Second_Goods second_goods = goodslist.get(position);
+//                    Intent intent = new Intent(mcontext, GoodsInformationActivity.class);
+//                    intent.putExtra("goods_id", second_goods.getObjectId());
+//                    mcontext.startActivity(intent);
                     ToastUtil.showAndCancel("点击了");
                 }
             });
@@ -73,8 +78,10 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (getItemViewType(position) == TYPE_ITEM) {
+            final GoodsHolder goodsholder = (GoodsHolder)holder;
             Second_Goods second_goods = goodslist.get(position-1);
             String pic_uri = second_goods.getImagePath();
+            String user_head = second_goods.getUpload_user().getHeadPortraitPath();
             //加载图片
             Picasso.with(mcontext)
                     .load(pic_uri)
@@ -82,9 +89,42 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     .placeholder(R.drawable.logo)
                     //设置加载失败的图片显示
                     .error(R.drawable.logo)
-                    .into(((GoodsHolder) holder).goods_photo);
-            ((GoodsHolder) holder).goods_name.setText(second_goods.getName());
-            return;
+                    .into(goodsholder.goods_photo);
+            //加载头像
+            Picasso.with(mcontext)
+                    .load(user_head)
+                    //加载中的图片
+                    .placeholder(R.drawable.logo)
+                    //设置加载失败的图片显示
+                    .error(R.drawable.logo)
+                    .into(goodsholder.user_head);
+            goodsholder.goods_name.setText(second_goods.getName());
+            goodsholder.goods_user.setText(second_goods.getUpload_user().getNickname());
+            goodsholder.goods_time.setText(second_goods.getUpdatedAt());
+            String usersex = second_goods.getUpload_user().getSex();
+            Log.d("bmob ", usersex);
+            if(usersex.equals("male")){
+                goodsholder.male.setVisibility(View.VISIBLE);
+                goodsholder.female.setVisibility(View.GONE);
+            }else {
+                goodsholder.female.setVisibility(View.VISIBLE);
+                goodsholder.male.setVisibility(View.GONE);
+            }
+            goodsholder.goods_name.setText(second_goods.getName());
+            goodsholder.goods_price.setText("¥ " + second_goods.getPrice());
+            BmobQuery<User>  query  = new BmobQuery<>();
+            query.addWhereRelatedTo("liked_user",new BmobPointer(second_goods));
+            query.findObjects(new FindListener<User>() {
+                @Override
+                public void done(List<User> list, BmobException e) {
+                    if (e == null) {
+                        goodsholder.liked_number.setText(list.size());
+                    } else {
+                        goodsholder.liked_number.setText("0");
+                        Log.i("bmob","失败："+e.getMessage()+","+e.getErrorCode());
+                    }
+                }
+            });
         } else {
 //            // 获取cardview的布局属性，记住这里要是布局的最外层的控件的布局属性，如果是里层的会报cast错误
 //            StaggeredGridLayoutManager.LayoutParams clp = (StaggeredGridLayoutManager.LayoutParams) ((HeaderHolder)holder).hearder_container.getLayoutParams();
@@ -178,17 +218,21 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     //实现adapter和ViewHolder的列表布局
     class GoodsHolder extends RecyclerView.ViewHolder {
-        public TextView goods_name, goods_type, goods_desc, goods_time, goods_user;
-        public ImageView goods_photo;
+        public TextView goods_name, goods_time, goods_price, goods_user, liked_number;
+        public ImageView goods_photo, male, female;
+        public CircleImageView user_head;
 
         public GoodsHolder(View itemView) {
             super(itemView);
-            goods_photo = (ImageView) itemView.findViewById(R.id.goods_photo);
-            goods_name = (TextView) itemView.findViewById(R.id.goods_name);
-            goods_type = (TextView) itemView.findViewById(R.id.goods_type);
-            goods_desc = (TextView) itemView.findViewById(R.id.goods_desc);
+            goods_user = (TextView) itemView.findViewById(R.id.user_nickname);
+            user_head = (CircleImageView) itemView.findViewById(R.id.user_head_portrait);
+            male = (ImageView) itemView.findViewById(R.id.male);
+            female = (ImageView) itemView.findViewById(R.id.female);
             goods_time = (TextView) itemView.findViewById(R.id.goods_time);
-            goods_user = (TextView) itemView.findViewById(R.id.goods_user);
+            goods_price = (TextView) itemView.findViewById(R.id.goods_price);
+            goods_name = (TextView) itemView.findViewById(R.id.goods_name);
+            liked_number = (TextView) itemView.findViewById(R.id.liked_number);
+            goods_photo = (ImageView) itemView.findViewById(R.id.goods_photo);
         }
     }
 
@@ -217,8 +261,6 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
              传输的到的是什么格式，那么这种就使用Object接收和返回，你只需要强转成你传输的类型就行，
              切记不要胡乱强转！
              */
-            //Picasso 加载图片简单用法
-            Log.e("imagepath", path.toString());
             Picasso.with(context).load((Integer) path).into(imageView);
         }
     }

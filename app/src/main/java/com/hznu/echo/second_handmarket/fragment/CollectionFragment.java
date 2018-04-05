@@ -36,7 +36,7 @@ import cn.bmob.v3.listener.FindListener;
  * Created by beyond on 17/4/11.
  */
 
-public class CollectionFragment extends BaseFragment1 {
+public class CollectionFragment extends BaseFragment {
 
     @BindView(R.id.goods_recycler_view)
     RecyclerView goodsRecyclerView;
@@ -157,14 +157,13 @@ public class CollectionFragment extends BaseFragment1 {
 
     //实现adapter和ViewHolder
     private class GoodsHolder extends RecyclerView.ViewHolder {
-        public TextView goods_name, goods_type, goods_desc, goods_time, goods_user;
+        public TextView goods_name, goods_desc, goods_time, goods_user;
         public ImageView goods_photo;
 
         public GoodsHolder(View itemView) {
             super(itemView);
             goods_photo = (ImageView) itemView.findViewById(R.id.goods_photo);
             goods_name = (TextView) itemView.findViewById(R.id.goods_name);
-            goods_type = (TextView) itemView.findViewById(R.id.goods_type);
             goods_desc = (TextView) itemView.findViewById(R.id.goods_desc);
             goods_time = (TextView) itemView.findViewById(R.id.goods_time);
             goods_user = (TextView) itemView.findViewById(R.id.goods_user);
@@ -213,10 +212,9 @@ public class CollectionFragment extends BaseFragment1 {
                     .error(R.drawable.logo)
                     .into(holder.goods_photo);
             holder.goods_name.setText(second_goods.getName());
-            holder.goods_type.setText(second_goods.getType());
             holder.goods_desc.setText(second_goods.getDescription());
-            holder.goods_time.setText(second_goods.getUpload_time());
-            holder.goods_user.setText(second_goods.getUpload_user_nickname());
+            holder.goods_time.setText(second_goods.getCreatedAt());
+            holder.goods_user.setText(second_goods.getUpload_user().getNickname());
         }
 
         @Override

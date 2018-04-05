@@ -60,6 +60,7 @@
         <EditText
             android:id="@+id/user_password"
             android:hint="请输入密码"
+            android:inputType="textPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </LinearLayout>
@@ -74,6 +75,7 @@
         <EditText
             android:id="@+id/user_password2"
             android:hint="请重复输入密码"
+            android:inputType="textPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </LinearLayout>

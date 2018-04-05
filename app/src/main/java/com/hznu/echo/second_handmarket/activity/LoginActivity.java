@@ -21,10 +21,14 @@ import com.hznu.echo.second_handmarket.bean.User;
 import com.hznu.echo.second_handmarket.utils.PreferenceUtils;
 import com.hznu.echo.second_handmarket.utils.ToastUtil;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.SaveListener;
 
 /**
@@ -45,6 +49,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
     private Button login;
     private boolean isOpen = false;
     private static final String TAG = "LoginActivity";
+    private boolean isVerfied;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -165,32 +170,59 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
                 // TODO 登录按钮
                 String user = username.getText().toString();
                 String pass = password.getText().toString();
+
                 //非空验证
                 if (user.equals("") || pass.equals("")) {
                     Toast.makeText(LoginActivity.this, "账号密码不能为空", Toast.LENGTH_SHORT).show();
                 } else {
-                    User user1 = new User();
-                    user1.setUsername(user);
-                    user1.setPassword(pass);
-                    user1.login(new SaveListener<User>() {
-                        @Override
-                        public void done(User user, BmobException e) {
-                            if(e==null){
-                                ToastUtil.showShort("登录成功");
-                                Log.d(TAG, "done: " + user.toString());
-                                saveState(user);
-                                startActivity(new Intent(LoginActivity.this,MainActivity.class));
-                                finish();
-                            }else{
-                                ToastUtil.showShort(e.toString());
-                            }
-                        }
-                    });
+                    isEmailVerified(user,pass);
                 }
                 break;
             default:
                 break;
         }
+    }
+
+
+    /**
+     * 判断该用户邮箱是否激活
+     * @param username
+     */
+    private void isEmailVerified(final String username, final String password){
+        BmobQuery<User> query = new BmobQuery<User>();
+        query.addWhereEqualTo("username", username);
+        query.findObjects(new FindListener<User>() {
+            @Override
+            public void done(List<User> list, BmobException e) {
+                if(e == null){
+                    isVerfied = list.get(0).getEmailVerified();
+                    if(isVerfied){
+                        {
+                            User user1 = new User();
+                            user1.setUsername(username);
+                            user1.setPassword(password);
+                            user1.login(new SaveListener<User>() {
+                                @Override
+                                public void done(User user, BmobException e) {
+                                    if(e==null){
+                                        ToastUtil.showShort("登录成功");
+                                        Log.d(TAG, "done: " + user.toString());
+                                        saveState(user);
+                                        startActivity(new Intent(LoginActivity.this,MainActivity.class));
+                                        finish();
+                                    }else{
+                                        ToastUtil.showShort(e.toString());
+                                    }
+                                }
+                            });
+                        }
+                    }
+                }else {
+                    ToastUtil.showAndCancel("不存在该用户");
+                }
+            }
+        });
+
     }
 
     /**
@@ -233,7 +265,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         PreferenceUtils.setBoolean(LoginActivity.this,"is_user_logined", true);
         PreferenceUtils.setString(LoginActivity.this,"USER_NAME",user.getNickname());
         PreferenceUtils.setString(LoginActivity.this,"USER_SEX",user.getSex());
-        PreferenceUtils.setString(LoginActivity.this,"USER_EMAIL",user.getE_mail());
+        PreferenceUtils.setString(LoginActivity.this,"USER_EMAIL",user.getEmail());
         PreferenceUtils.setString(LoginActivity.this,"USER_SCHOOL",user.getSchool());
     }
 }

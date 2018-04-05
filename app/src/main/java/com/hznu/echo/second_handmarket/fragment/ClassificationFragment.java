@@ -21,7 +21,7 @@ import butterknife.Unbinder;
  * Created by beyond on 17/4/11.
  */
 
-public class ClassificationFragment extends BaseFragment1 {
+public class ClassificationFragment extends BaseFragment {
 
 
     @BindView(R.id.car_goods)

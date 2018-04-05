@@ -269,10 +269,8 @@ public class AddGoodsActivity extends AppCompatActivity {
             mSecond_goods.setType(type);
             mSecond_goods.setDescription(desc);
             mSecond_goods.setPrice(price);
-            mSecond_goods.setUpload_time(System.currentTimeMillis() + "");
-            User user1 = BmobUser.getCurrentUser(User.class);//获取已登录的用户
-            mSecond_goods.setUpload_user(user1.getObjectId());
-            mSecond_goods.setUpload_user_nickname(user1.getNickname());
+            User user = BmobUser.getCurrentUser(User.class);//获取已登录的用户
+            mSecond_goods.setUpload_user(user);
             mSecond_goods.setImagePath(imagepath);
             mSecond_goods.save(new SaveListener<String>() {
                 @Override

@@ -72,10 +72,10 @@ public class GoodsInformationActivity extends AppCompatActivity {
                     goodsName.setText(second_goods.getName());
                     goodsDesc.setText(second_goods.getDescription());
                     goodsPrice.setText(second_goods.getPrice());
-                    goodsUser.setText(second_goods.getUpload_user_nickname());
-                    if (second_goods.getGoods_comment() != null) {
-                        mComments = second_goods.getGoods_comment();
-                    }
+                    goodsUser.setText(second_goods.getUpload_user().getNickname());
+//                    if (second_goods.getGoods_comment() != null) {
+//                        mComments = second_goods.getGoods_comment();
+//                    }
                     mAdapter = new MyAdapter(mComments);
                     // 设置adapter
                     comments.setAdapter(mAdapter);

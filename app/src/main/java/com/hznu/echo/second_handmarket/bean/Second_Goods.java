@@ -1,8 +1,7 @@
 package com.hznu.echo.second_handmarket.bean;
 
-import java.util.List;
-
 import cn.bmob.v3.BmobObject;
+import cn.bmob.v3.datatype.BmobRelation;
 
 /**
  * <pre>
@@ -16,17 +15,12 @@ import cn.bmob.v3.BmobObject;
 public class Second_Goods extends BmobObject {
     private String name;  //物品名字
     private String type;  //物品类型
-    private String upload_user; //上传用户
-    private String upload_user_nickname;  //上传用户的昵称
-    private String upload_time;  //上传时间
+    private User upload_user; //上传用户
     private String imagePath; //上传图片路径
     private String price;  //上传的价格
     private String  description; //物品描述
     private Integer  state;  //物品状态
-    private String address;  //所在位置
-    private String TransactionType; //交易类型
-    private List<String> goods_comment; //商品评论
-
+    private BmobRelation liked_user;
 
     public String getName() {
         return name;
@@ -44,27 +38,11 @@ public class Second_Goods extends BmobObject {
         this.type = type;
     }
 
-    public String getUpload_time() {
-        return upload_time;
-    }
-
-    public void setUpload_time(String upload_time) {
-        this.upload_time = upload_time;
-    }
-
-    public String getUpload_user_nickname() {
-        return upload_user_nickname;
-    }
-
-    public void setUpload_user_nickname(String upload_user_nickname) {
-        this.upload_user_nickname = upload_user_nickname;
-    }
-
-    public String getUpload_user() {
+    public User getUpload_user() {
         return upload_user;
     }
 
-    public void setUpload_user(String upload_user) {
+    public void setUpload_user(User upload_user) {
         this.upload_user = upload_user;
     }
 
@@ -100,28 +78,12 @@ public class Second_Goods extends BmobObject {
         this.state = state;
     }
 
-    public String getAddress() {
-        return address;
+    public BmobRelation getLiked_user() {
+        return liked_user;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getTransactionType() {
-        return TransactionType;
-    }
-
-    public void setTransactionType(String transactionType) {
-        TransactionType = transactionType;
-    }
-
-    public List<String> getGoods_comment() {
-        return goods_comment;
-    }
-
-    public void setGoods_comment(List<String> goods_comment) {
-        this.goods_comment = goods_comment;
+    public void setLiked_user(BmobRelation liked_user) {
+        this.liked_user = liked_user;
     }
 
     @Override
@@ -129,16 +91,12 @@ public class Second_Goods extends BmobObject {
         return "Second_Goods{" +
                 "name='" + name + '\'' +
                 ", type='" + type + '\'' +
-                ", upload_user='" + upload_user + '\'' +
-                ", upload_user_nickname='" + upload_user_nickname + '\'' +
-                ", upload_time='" + upload_time + '\'' +
+                ", upload_user=" + upload_user +
                 ", imagePath='" + imagePath + '\'' +
                 ", price='" + price + '\'' +
                 ", description='" + description + '\'' +
                 ", state=" + state +
-                ", address='" + address + '\'' +
-                ", TransactionType='" + TransactionType + '\'' +
-                ", goods_comment=" + goods_comment +
+                ", liked_user=" + liked_user +
                 '}';
     }
 }

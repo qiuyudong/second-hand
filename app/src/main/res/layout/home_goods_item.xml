@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="240dp"
+    android:layout_marginLeft="20dp"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -44,7 +45,7 @@
             android:layout_marginTop="8dp"
             android:layout_width="20dp"
             android:layout_height="wrap_content"
-            android:visibility="visible"
+            android:visibility="gone"
             android:src="@drawable/female" />
         <TextView
             android:id="@+id/goods_time"
@@ -74,17 +75,28 @@
         android:layout_width="wrap_content"
         android:layout_height="30dp">
         <TextView
-            android:id="@+id/user_price"
+            android:id="@+id/goods_price"
             android:textColor="@color/pricecolor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="21sp"
+            android:layout_marginRight="3dp"
             android:text="¥15"/>
         <ImageView
+            android:id="@+id/liked"
             android:src="@drawable/liked"
-            android:layout_alignParentRight="true"
             android:layout_marginRight="20dp"
-            android:layout_width="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_width="20dp"
             android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/liked_number"
+            android:textColor="@color/pricecolor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/liked"
+            android:textSize="21sp"
+            android:layout_marginRight="3dp"
+            android:text="15"/>
     </RelativeLayout>
 </LinearLayout>

@@ -38,7 +38,7 @@ dependencies {
     compile 'com.ashokvarma.android:bottom-navigation-bar:1.4.1' //底部导航栏
     compile 'com.squareup.picasso:picasso:2.5.2'//图片加载框架
     compile 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     compile 'com.youth.banner:banner:1.4.10'  //轮播图
     testCompile 'junit:junit:4.12'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 }

@@ -13,13 +13,15 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.hznu.echo.second_handmarket.R;
 import com.hznu.echo.second_handmarket.bean.Second_Goods;
-import com.hznu.echo.second_handmarket.utils.DateUtil;
 import com.hznu.echo.second_handmarket.utils.ToastUtil;
 import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.bmob.v3.BmobQuery;
@@ -184,10 +186,10 @@ public class ClassificationActivity extends AppCompatActivity {
                     //设置加载失败的图片显示
                     .error(R.drawable.logo)
                     .into(holder.goods_photo);
-            holder.goods_name.setText("$"+second_goods.getName());
+            holder.goods_name.setText("¥"+second_goods.getName());
             holder.goods_price.setText(second_goods.getPrice());
-            holder.goods_time.setText(DateUtil.timeStamp2Date(second_goods.getUpload_time(),"yyyy-MM-dd HH:mm"));
-            holder.goods_user.setText(second_goods.getUpload_user_nickname());
+            holder.goods_time.setText(second_goods.getCreatedAt());
+            holder.goods_user.setText(second_goods.getUpload_user().getNickname());
         }
 
         @Override
