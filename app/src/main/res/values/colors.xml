@@ -21,6 +21,6 @@
     <color name="textShallow">#666666</color>
     <color name="textShallower">#999999</color>
     <color name="pricecolor">#D33630</color>
-    <color name="itemDivider">#999999</color>
+    <color name="itemDivider">#f2f2f2</color>
 
 </resources>

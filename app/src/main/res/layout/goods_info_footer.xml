@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="#f2f2f2"
+    android:layout_height="40dp">
+    <ImageView
+        android:id="@+id/message_pic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/message"/>
+    <TextView
+        android:id="@+id/message_tv"
+        android:text="留言"
+        android:layout_toRightOf="@id/message_pic"
+        android:gravity="center"
+        android:layout_width="40dp"
+        android:layout_height="40dp" />
+    <TextView
+        android:id="@+id/chat_tv"
+        android:text="发信息"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="50dp"
+        android:gravity="center"
+        android:layout_width="60dp"
+        android:layout_height="40dp" />
+   <ImageView
+       android:id="@+id/chat_pic"
+       android:layout_toLeftOf="@id/chat_tv"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_marginTop="5dp"
+       android:src="@drawable/chat"/>
+</RelativeLayout>
