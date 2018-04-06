@@ -164,7 +164,7 @@ public class CollectionFragment extends BaseFragment {
             super(itemView);
             goods_photo = (ImageView) itemView.findViewById(R.id.goods_photo);
             goods_name = (TextView) itemView.findViewById(R.id.goods_name);
-            goods_desc = (TextView) itemView.findViewById(R.id.goods_desc);
+//            goods_desc = (TextView) itemView.findViewById(R.id.goods_desc);
             goods_time = (TextView) itemView.findViewById(R.id.goods_time);
             goods_user = (TextView) itemView.findViewById(R.id.goods_user);
         }

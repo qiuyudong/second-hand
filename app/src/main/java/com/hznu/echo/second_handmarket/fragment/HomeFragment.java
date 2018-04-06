@@ -119,6 +119,7 @@ public class HomeFragment extends BaseFragment {
 
     private void refreshDate() {
         BmobQuery<Second_Goods> query = new BmobQuery<>();
+        query.include("upload_user");
         query.findObjects(new FindListener<Second_Goods>() {
             @Override
             public void done(List<Second_Goods> list, BmobException e) {

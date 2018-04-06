@@ -56,12 +56,6 @@
                      android:text="$12"
                      android:textColor="#e51c23"
                      android:textSize="22sp"/>
-                 <ImageView
-                     android:layout_width="25dp"
-                     android:layout_height="25dp"
-                     android:layout_marginRight="5dp"
-                     android:src="@drawable/seller"
-                     android:layout_toLeftOf="@id/goods_user"/>
                  <TextView
                      android:id="@+id/goods_user"
                      android:layout_width="wrap_content"
@@ -71,6 +65,13 @@
                      android:text="echo"
                      android:layout_alignParentRight="true"
                      android:textSize="18sp"/>
+                 <ImageView
+                     android:layout_width="25dp"
+                     android:layout_height="25dp"
+                     android:layout_marginRight="5dp"
+                     android:src="@drawable/seller"
+                     android:layout_toLeftOf="@id/goods_user"/>
+
              </RelativeLayout>
 
 

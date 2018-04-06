@@ -1,9 +1,9 @@
 package com.hznu.echo.second_handmarket.base;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hznu.echo.second_handmarket.R;
+import com.hznu.echo.second_handmarket.activity.GoodsInformationActivity;
 import com.hznu.echo.second_handmarket.bean.Second_Goods;
 import com.hznu.echo.second_handmarket.bean.User;
 import com.hznu.echo.second_handmarket.utils.ToastUtil;
@@ -63,11 +64,11 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    int position = holder.getAdapterPosition();
-//                    Second_Goods second_goods = goodslist.get(position);
-//                    Intent intent = new Intent(mcontext, GoodsInformationActivity.class);
-//                    intent.putExtra("goods_id", second_goods.getObjectId());
-//                    mcontext.startActivity(intent);
+                    int position = holder.getAdapterPosition();
+                    Second_Goods second_goods = goodslist.get(position - 1);
+                    Intent intent = new Intent(mcontext, GoodsInformationActivity.class);
+                    intent.putExtra("second_goods", second_goods);
+                    mcontext.startActivity(intent);
                     ToastUtil.showAndCancel("点击了");
                 }
             });
@@ -100,9 +101,8 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     .into(goodsholder.user_head);
             goodsholder.goods_name.setText(second_goods.getName());
             goodsholder.goods_user.setText(second_goods.getUpload_user().getNickname());
-            goodsholder.goods_time.setText(second_goods.getUpdatedAt());
+            goodsholder.goods_time.setText(second_goods.getCreatedAt());
             String usersex = second_goods.getUpload_user().getSex();
-            Log.d("bmob ", usersex);
             if(usersex.equals("male")){
                 goodsholder.male.setVisibility(View.VISIBLE);
                 goodsholder.female.setVisibility(View.GONE);
@@ -112,16 +112,15 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             }
             goodsholder.goods_name.setText(second_goods.getName());
             goodsholder.goods_price.setText("¥ " + second_goods.getPrice());
-            BmobQuery<User>  query  = new BmobQuery<>();
+            BmobQuery<User>  query  = new BmobQuery<User>();
             query.addWhereRelatedTo("liked_user",new BmobPointer(second_goods));
             query.findObjects(new FindListener<User>() {
                 @Override
                 public void done(List<User> list, BmobException e) {
                     if (e == null) {
-                        goodsholder.liked_number.setText(list.size());
+                       goodsholder.liked_number.setText(list.size()+"");
                     } else {
                         goodsholder.liked_number.setText("0");
-                        Log.i("bmob","失败："+e.getMessage()+","+e.getErrorCode());
                     }
                 }
             });

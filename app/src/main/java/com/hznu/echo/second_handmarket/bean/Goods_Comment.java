@@ -9,7 +9,7 @@ import cn.bmob.v3.BmobObject;
 public class Goods_Comment extends BmobObject {
     private String comment;
     private User create_user;
-    private Second_Goods second_goods;
+    private Second_Goods current_goods;
 
     public String getComment() {
         return comment;
@@ -27,13 +27,12 @@ public class Goods_Comment extends BmobObject {
         this.create_user = create_user;
     }
 
-
-    public Second_Goods getSecond_goods() {
-        return second_goods;
+    public Second_Goods getCurrent_goods() {
+        return current_goods;
     }
 
-    public void setSecond_goods(Second_Goods second_goods) {
-        this.second_goods = second_goods;
+    public void setCurrent_goods(Second_Goods current_goods) {
+        this.current_goods = current_goods;
     }
 
     @Override
@@ -41,7 +40,7 @@ public class Goods_Comment extends BmobObject {
         return "Goods_Comment{" +
                 "comment='" + comment + '\'' +
                 ", create_user=" + create_user +
-                ", second_goods=" + second_goods +
+                ", current_goods=" + current_goods +
                 '}';
     }
 }

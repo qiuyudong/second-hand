@@ -1,31 +1,31 @@
 package com.hznu.echo.second_handmarket.base;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hznu.echo.second_handmarket.R;
+import com.hznu.echo.second_handmarket.activity.MessageActivity;
+import com.hznu.echo.second_handmarket.bean.Goods_Comment;
 import com.hznu.echo.second_handmarket.bean.Second_Goods;
 import com.hznu.echo.second_handmarket.bean.User;
 import com.hznu.echo.second_handmarket.utils.ToastUtil;
 import com.squareup.picasso.Picasso;
-import com.youth.banner.Banner;
-import com.youth.banner.loader.ImageLoader;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import cn.bmob.v3.BmobQuery;
-import cn.bmob.v3.datatype.BmobPointer;
+import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.datatype.BmobRelation;
 import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.UpdateListener;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
@@ -34,7 +34,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class GoodsInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private List<Second_Goods> goodslist;
+    private List<Goods_Comment> commentslist;
+    private Second_Goods second_goods;
+    private boolean isliked;
     private Context mcontext;
     //普通布局的type
     static final int TYPE_ITEM = 0;
@@ -44,34 +46,29 @@ public class GoodsInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     static final int TYPE_FOOTER = 2;
     //构造方法，初始化列表
 
-    public GoodsInfoAdapter(List<Second_Goods> prolist, Context context) {
-        goodslist = prolist;
+    public GoodsInfoAdapter(List<Goods_Comment> prolist, Second_Goods second_goods, boolean isliked,Context context) {
+        commentslist = prolist;
         mcontext = context;
-
+        this.second_goods = second_goods;
+        this.isliked = isliked;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == TYPE_HEADER) {
             LayoutInflater layoutInflater = LayoutInflater.from(mcontext);
-            View view = layoutInflater.inflate(R.layout.fragment_home_header, parent, false);
+            View view = layoutInflater.inflate(R.layout.goods_info_header, parent, false);
             final HeaderHolder holder = new HeaderHolder(view);
             return holder;
-        } else {
+        } else if(viewType == TYPE_FOOTER){
             LayoutInflater layoutInflater = LayoutInflater.from(mcontext);
-            View view = layoutInflater.inflate(R.layout.home_goods_item, parent, false);
-            final GoodsHolder holder = new GoodsHolder(view);
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-//                    int position = holder.getAdapterPosition();
-//                    Second_Goods second_goods = goodslist.get(position);
-//                    Intent intent = new Intent(mcontext, GoodsInformationActivity.class);
-//                    intent.putExtra("goods_id", second_goods.getObjectId());
-//                    mcontext.startActivity(intent);
-                    ToastUtil.showAndCancel("点击了");
-                }
-            });
+            View view = layoutInflater.inflate(R.layout.goods_info_footer, parent, false);
+            final FooterHolder holder = new FooterHolder(view);
+            return holder;
+        }else {
+            LayoutInflater layoutInflater = LayoutInflater.from(mcontext);
+            View view = layoutInflater.inflate(R.layout.goods_info_comment, parent, false);
+            final CommentsHolder holder = new CommentsHolder(view);
             return holder;
         }
     }
@@ -79,149 +76,107 @@ public class GoodsInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (getItemViewType(position) == TYPE_ITEM) {
-            final GoodsHolder goodsholder = (GoodsHolder)holder;
-            Second_Goods second_goods = goodslist.get(position-1);
-            String pic_uri = second_goods.getImagePath();
-            String user_head = second_goods.getUpload_user().getHeadPortraitPath();
-            //加载图片
+            CommentsHolder mholder = (CommentsHolder)holder;
+            Goods_Comment mcomment = commentslist.get(position - 1);
+            User user = mcomment.getCreate_user();
             Picasso.with(mcontext)
-                    .load(pic_uri)
-                    //加载中的图片
-                    .placeholder(R.drawable.logo)
-                    //设置加载失败的图片显示
+                    .load(user.getHeadPortraitPath())
                     .error(R.drawable.logo)
-                    .into(goodsholder.goods_photo);
-            //加载头像
-            Picasso.with(mcontext)
-                    .load(user_head)
-                    //加载中的图片
-                    .placeholder(R.drawable.logo)
-                    //设置加载失败的图片显示
-                    .error(R.drawable.logo)
-                    .into(goodsholder.user_head);
-            goodsholder.goods_name.setText(second_goods.getName());
-            goodsholder.goods_user.setText(second_goods.getUpload_user().getNickname());
-            goodsholder.goods_time.setText(second_goods.getUpdatedAt());
-            String usersex = second_goods.getUpload_user().getSex();
-            Log.d("bmob ", usersex);
-            if(usersex.equals("male")){
-                goodsholder.male.setVisibility(View.VISIBLE);
-                goodsholder.female.setVisibility(View.GONE);
-            }else {
-                goodsholder.female.setVisibility(View.VISIBLE);
-                goodsholder.male.setVisibility(View.GONE);
+                    .into(mholder.user_head);
+            mholder.user_nickname.setText(user.getNickname());
+            mholder.comment_content.setText(mcomment.getComment());
+            mholder.comment_time.setText(mcomment.getCreatedAt());
+            if(user.getSex().equals("male")){
+                mholder.male.setVisibility(View.VISIBLE);
+                mholder.female.setVisibility(View.GONE);
+            }else{
+                mholder.female.setVisibility(View.VISIBLE);
+                mholder.male.setVisibility(View.GONE);
             }
-            goodsholder.goods_name.setText(second_goods.getName());
-            goodsholder.goods_price.setText("¥ " + second_goods.getPrice());
-            BmobQuery<User>  query  = new BmobQuery<>();
-            query.addWhereRelatedTo("liked_user",new BmobPointer(second_goods));
-            query.findObjects(new FindListener<User>() {
-                @Override
-                public void done(List<User> list, BmobException e) {
-                    if (e == null) {
-                        goodsholder.liked_number.setText(list.size());
-                    } else {
-                        goodsholder.liked_number.setText("0");
-                        Log.i("bmob","失败："+e.getMessage()+","+e.getErrorCode());
-                    }
-                }
-            });
-        } else {
-//            // 获取cardview的布局属性，记住这里要是布局的最外层的控件的布局属性，如果是里层的会报cast错误
-//            StaggeredGridLayoutManager.LayoutParams clp = (StaggeredGridLayoutManager.LayoutParams) ((HeaderHolder)holder).hearder_container.getLayoutParams();
-//            // 最最关键一步，设置当前view占满列数，这样就可以占据两列实现头部了
-//            clp.setFullSpan(true);
-            Banner banner = ((HeaderHolder)holder).banner;
-            //设置图片加载器
-            banner.setImageLoader(new GlideImageLoader());
-            List<Integer> list = new ArrayList<>();
-            list.add(R.mipmap.test2);
-            list.add(R.mipmap.test2);
-            list.add(R.mipmap.test2);
-            ((HeaderHolder)holder).hotGoods.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Second_Goods x = new Second_Goods();
-                    x.setImagePath("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1522594157933&di=97996eb1a521fd1b6e1fc3169cb485fd&imgtype=0&src=http%3A%2F%2Fc.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F0b55b319ebc4b745b19f82c1c4fc1e178b8215d9.jpg");
-                    x.setName("asdasd");
-                    Second_Goods y = new Second_Goods();
-                    y.setImagePath("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1522594157933&di=97996eb1a521fd1b6e1fc3169cb485fd&imgtype=0&src=http%3A%2F%2Fc.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F0b55b319ebc4b745b19f82c1c4fc1e178b8215d9.jpg");
-                    y.setName("asdasd");
-                    Second_Goods z = new Second_Goods();
-                    z.setImagePath("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1522594157933&di=97996eb1a521fd1b6e1fc3169cb485fd&imgtype=0&src=http%3A%2F%2Fc.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F0b55b319ebc4b745b19f82c1c4fc1e178b8215d9.jpg");
-                    z.setName("asdasd");
-                    goodslist.add(x);
-                    goodslist.add(y);
-                    goodslist.add(z);
-                    notifyDataSetChanged();
-                }
-            });
-            ((HeaderHolder)holder).newGoods.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Second_Goods x = new Second_Goods();
-                    x.setImagePath("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1522594157933&di=97996eb1a521fd1b6e1fc3169cb485fd&imgtype=0&src=http%3A%2F%2Fc.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F0b55b319ebc4b745b19f82c1c4fc1e178b8215d9.jpg");
-                    x.setName("wawawa");
-                    Second_Goods y = new Second_Goods();
-                    y.setImagePath("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1522594157933&di=97996eb1a521fd1b6e1fc3169cb485fd&imgtype=0&src=http%3A%2F%2Fc.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F0b55b319ebc4b745b19f82c1c4fc1e178b8215d9.jpg");
-                    y.setName("waawawa");
-                    Second_Goods z = new Second_Goods();
-                    z.setImagePath("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1522594157933&di=97996eb1a521fd1b6e1fc3169cb485fd&imgtype=0&src=http%3A%2F%2Fc.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F0b55b319ebc4b745b19f82c1c4fc1e178b8215d9.jpg");
-                    z.setName("wawawa");
-                    goodslist.add(x);
-                    goodslist.add(y);
-                    goodslist.add(z);
-                    notifyDataSetChanged();
-                }
-            });
-            //设置图片集合
-            banner.setImages(list);
-            //banner设置方法全部调用完毕时最后调用
-            banner.start();
-        }
 
+        }
+        else if (getItemViewType(position) == TYPE_HEADER){
+            final HeaderHolder mholder = (HeaderHolder) holder;
+            User user = second_goods.getUpload_user();
+            Picasso.with(mcontext)
+                    .load(user.getHeadPortraitPath())
+                    .error(R.drawable.logo)
+                    .into(mholder.user_head);
+            Picasso.with(mcontext)
+                    .load(second_goods.getImagePath())
+                    .error(R.drawable.logo)
+                    .into(mholder.goods_pic);
+            mholder.user_nickname.setText(user.getNickname());
+            if(user.getSex().equals("male")){
+                mholder.male.setVisibility(View.VISIBLE);
+                mholder.female.setVisibility(View.GONE);
+            }else{
+                mholder.female.setVisibility(View.VISIBLE);
+                mholder.male.setVisibility(View.GONE);
+            }
+            mholder.user_signature.setText(user.getSignature());
+            mholder.goods_price.setText(second_goods.getPrice());
+            mholder.goods_discr.setText(second_goods.getDescription());
+            mholder.comment_count.setText("留言 - " + commentslist.size());
+            if(isliked){
+                mholder.goods_like.setVisibility(View.VISIBLE);
+                mholder.goods_not_like.setVisibility(View.GONE);
+            }else {
+                mholder.goods_like.setVisibility(View.GONE);
+                mholder.goods_not_like.setVisibility(View.VISIBLE);
+            }
+            mholder.like_ll.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                   if(isliked){
+                       setUnLiked();
+                   }else {
+                       setLiked();
+                   }
+                }
+            });
+        }else {
+            FooterHolder mholder = (FooterHolder) holder;
+            mholder.message_tv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(mcontext, MessageActivity.class);
+                    intent.putExtra("second_goods", second_goods);
+                    mcontext.startActivity(intent);
+                    ((Activity)mcontext).finish();
+                }
+            });
+            mholder.chat_tv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ToastUtil.showAndCancel("交流");
+                }
+            });
+        }
     }
 
     @Override
     public int getItemCount() {
-        return goodslist.size() == 0 ? 0 : goodslist.size() + 1;
+        return commentslist.size() + 2;
     }
 
     @Override
     public int getItemViewType(int position) {
         if (position == 0) {
             return TYPE_HEADER;
-        } else {
+        } else if (position == commentslist.size() + 1){
+            return TYPE_FOOTER;
+        }else {
             return TYPE_ITEM;
         }
     }
 
     //实现adapter和ViewHolder的列表布局
-    class GoodsHolder extends RecyclerView.ViewHolder {
-        public TextView goods_name, goods_time, goods_price, goods_user, liked_number;
-        public ImageView goods_photo, male, female;
-        public CircleImageView user_head;
-
-        public GoodsHolder(View itemView) {
-            super(itemView);
-            goods_user = (TextView) itemView.findViewById(R.id.user_nickname);
-            user_head = (CircleImageView) itemView.findViewById(R.id.user_head_portrait);
-            male = (ImageView) itemView.findViewById(R.id.male);
-            female = (ImageView) itemView.findViewById(R.id.female);
-            goods_time = (TextView) itemView.findViewById(R.id.goods_time);
-            goods_price = (TextView) itemView.findViewById(R.id.goods_price);
-            goods_name = (TextView) itemView.findViewById(R.id.goods_name);
-            liked_number = (TextView) itemView.findViewById(R.id.liked_number);
-            goods_photo = (ImageView) itemView.findViewById(R.id.goods_photo);
-        }
-    }
-
-    //头布局
-    class HeaderHolder extends RecyclerView.ViewHolder {
+    class CommentsHolder extends RecyclerView.ViewHolder {
         public CircleImageView user_head;
         public TextView user_nickname,comment_content,comment_time;
         public ImageView male,female;
-        public HeaderHolder(View itemView) {
+        public CommentsHolder(View itemView) {
             super(itemView);
             user_head = (CircleImageView) itemView.findViewById(R.id.user_head_portrait);
             user_nickname = (TextView) itemView.findViewById(R.id.user_nickname);
@@ -232,13 +187,119 @@ public class GoodsInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
     }
 
+    //头布局
+    class HeaderHolder extends RecyclerView.ViewHolder {
+        public CircleImageView user_head;
+        public ImageView male,female,goods_like,goods_not_like,goods_pic;
+        public TextView user_nickname,user_signature,goods_price,goods_discr,comment_count;
+        public LinearLayout like_ll;
+        public HeaderHolder(View itemView){
+            super(itemView);
+            user_head = (CircleImageView) itemView.findViewById(R.id.user_head_portrait);
+            user_nickname = (TextView) itemView.findViewById(R.id.user_nickname);
+            male = (ImageView) itemView.findViewById(R.id.male);
+            female = (ImageView) itemView.findViewById(R.id.female);
+            user_signature = (TextView) itemView.findViewById(R.id.user_signature);
+            goods_pic = (ImageView) itemView.findViewById(R.id.goods_pic);
+            goods_like = (ImageView) itemView.findViewById(R.id.goods_like);
+            goods_not_like = (ImageView) itemView.findViewById(R.id.goods_not_like);
+            like_ll = (LinearLayout) itemView.findViewById(R.id.goods_liked_ll);
+            goods_price = (TextView) itemView.findViewById(R.id.goods_price);
+            goods_discr = (TextView) itemView.findViewById(R.id.goods_discri);
+            comment_count = (TextView) itemView.findViewById(R.id.comment_count);
+        }
+
+    }
+
     //脚布局
     class FooterHolder extends RecyclerView.ViewHolder {
         TextView message_tv,chat_tv;
         public FooterHolder(View itemView) {
             super(itemView);
             message_tv = (TextView) itemView.findViewById(R.id.message_tv);
-            chat_tv = (TextView) itemView.findViewById(R.id.chat_tv)
+            chat_tv = (TextView) itemView.findViewById(R.id.chat_tv);
         }
+    }
+
+    public void setLiked(){
+        User currentUser = BmobUser.getCurrentUser(User.class);
+        BmobRelation relation = new BmobRelation();
+        //将当前用户添加到多对多关联中
+        relation.add(currentUser);
+        //多对多关联指向`post`的`likes`字段
+        second_goods.setLiked_user(relation);
+        second_goods.update(new UpdateListener() {
+            @Override
+            public void done(BmobException e) {
+                if(e==null){
+                    setUserLike();
+                }else{
+                    Log.i("bmob","失败："+e.getMessage());
+                }
+            }
+
+        });
+    }
+    public void setUnLiked(){
+        User currentUser = BmobUser.getCurrentUser(User.class);
+        BmobRelation relation = new BmobRelation();
+        //将当前用户添加到多对多关联中
+        relation.remove(currentUser);
+        //多对多关联指向`post`的`likes`字段
+        second_goods.setLiked_user(relation);
+        second_goods.update(new UpdateListener() {
+            @Override
+            public void done(BmobException e) {
+                if(e==null){
+                  setUserUnlike();
+                }else{
+                    Log.i("bmob","失败："+e.getMessage());
+                }
+            }
+
+        });
+    }
+
+    public void setUserLike (){
+        User currentUser = BmobUser.getCurrentUser(User.class);
+        BmobRelation relation = new BmobRelation();
+        //将当前用户添加到多对多关联中
+        relation.add(second_goods);
+        //多对多关联指向`post`的`likes`字段
+        currentUser.setLiked_goods(relation);
+        currentUser.update(new UpdateListener() {
+            @Override
+            public void done(BmobException e) {
+                if(e==null){
+                    ToastUtil.showAndCancel("点赞");
+                    isliked = true;
+                    notifyDataSetChanged();
+                }else{
+                    Log.i("bmob","失败："+e.getMessage());
+                }
+            }
+
+        });
+    }
+    public void setUserUnlike(){
+        User currentUser = BmobUser.getCurrentUser(User.class);
+        BmobRelation relation = new BmobRelation();
+        //将当前用户添加到多对多关联中
+        relation.remove(second_goods);
+        //多对多关联指向`post`的`likes`字段
+        currentUser.setLiked_goods(relation);
+        currentUser.update(new UpdateListener() {
+            @Override
+            public void done(BmobException e) {
+                if(e==null){
+                    ToastUtil.showAndCancel("取消赞");
+                    isliked = false;
+                    notifyDataSetChanged();
+                }else{
+                    Log.i("bmob","失败："+e.getMessage());
+                }
+            }
+
+        });
     }
 }
