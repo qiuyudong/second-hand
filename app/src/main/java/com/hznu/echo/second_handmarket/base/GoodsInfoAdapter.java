@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hznu.echo.second_handmarket.R;
+import com.hznu.echo.second_handmarket.activity.ChatActivity;
 import com.hznu.echo.second_handmarket.activity.MessageActivity;
 import com.hznu.echo.second_handmarket.bean.Goods_Comment;
 import com.hznu.echo.second_handmarket.bean.Second_Goods;
@@ -22,6 +23,10 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import cn.bmob.newim.BmobIM;
+import cn.bmob.newim.bean.BmobIMConversation;
+import cn.bmob.newim.bean.BmobIMUserInfo;
+import cn.bmob.newim.core.ConnectionStatus;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobRelation;
 import cn.bmob.v3.exception.BmobException;
@@ -38,6 +43,7 @@ public class GoodsInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private Second_Goods second_goods;
     private boolean isliked;
     private Context mcontext;
+    private BmobIMUserInfo info;
     //普通布局的type
     static final int TYPE_ITEM = 0;
     //头布局
@@ -98,6 +104,8 @@ public class GoodsInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         else if (getItemViewType(position) == TYPE_HEADER){
             final HeaderHolder mholder = (HeaderHolder) holder;
             User user = second_goods.getUpload_user();
+            //构造聊天方的用户信息:传入用户id、用户名和用户头像三个参数
+            info = new BmobIMUserInfo(user.getObjectId(), user.getNickname(), user.getHeadPortraitPath());
             Picasso.with(mcontext)
                     .load(user.getHeadPortraitPath())
                     .error(R.drawable.logo)
@@ -150,9 +158,29 @@ public class GoodsInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 @Override
                 public void onClick(View view) {
                     ToastUtil.showAndCancel("交流");
+                    chat();
                 }
             });
         }
+    }
+
+
+    /**
+     * 与陌生人聊天
+     */
+    private void chat() {
+        if (BmobIM.getInstance().getCurrentStatus().getCode() != ConnectionStatus.CONNECTED.getCode()) {
+            ToastUtil.showAndCancel("尚未连接IM服务器");
+            return;
+        }
+        //TODO 会话：4.1、创建一个常态会话入口，陌生人聊天
+        BmobIMConversation conversationEntrance = BmobIM.getInstance().startPrivateConversation(info, null);
+//        Bundle bundle = new Bundle();
+//        bundle.putSerializable("c", conversationEntrance);
+        Intent intent = new Intent(mcontext,ChatActivity.class);
+        intent.putExtra("c",conversationEntrance);
+//        intent.putExtra(mcontext.getPackageName(),bundle);
+        mcontext.startActivity(intent);
     }
 
     @Override

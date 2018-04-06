@@ -63,6 +63,7 @@ public class GoodsInformationActivity extends AppCompatActivity {
             @Override
             public void done(List<Goods_Comment> object, BmobException e) {
                 if (e == null) {
+                    Log.e("bmob", "s");
                     goods_comments = object;
                     getIsliked();
                 } else {
@@ -96,6 +97,9 @@ public class GoodsInformationActivity extends AppCompatActivity {
                                 return;
                             }
                         }
+                        dialog.dismiss();
+                        mAdapter = new GoodsInfoAdapter(goods_comments, msecond_goods, false, GoodsInformationActivity.this);
+                        goodsInfo.setAdapter(mAdapter);
                     }
                 } else {
                     dialog.dismiss();

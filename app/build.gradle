@@ -30,8 +30,9 @@ dependencies {
     //3.5.5：请务必查看下面注释[1]
     //如果你想应用能够兼容Android6.0，请添加此依赖(org.apache.http.legacy.jar)
     compile 'cn.bmob.android:bmob-sdk:3.5.5'
+    compile 'org.greenrobot:eventbus:3.0.0'
     compile 'cn.bmob.android:http-legacy:1.0'
-
+    compile 'cn.bmob.android:bmob-im:2.0.9@aar'
     compile 'com.android.support:appcompat-v7:25.3.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'de.hdodenhof:circleimageview:2.1.0'//圆形图片
