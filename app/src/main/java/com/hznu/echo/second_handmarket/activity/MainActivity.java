@@ -17,6 +17,7 @@ import com.hznu.echo.second_handmarket.R;
 import com.hznu.echo.second_handmarket.fragment.ClassificationFragment;
 import com.hznu.echo.second_handmarket.fragment.CollectionFragment;
 import com.hznu.echo.second_handmarket.fragment.HomeFragment;
+import com.hznu.echo.second_handmarket.fragment.UserInfoFragment;
 
 import java.util.ArrayList;
 
@@ -110,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         fragments.add(new HomeFragment());
         fragments.add(ClassificationFragment.newInstance("Classification"));
         fragments.add(CollectionFragment.newInstance("Collections"));
-        fragments.add(CollectionFragment.newInstance("UserMain"));
+        fragments.add(UserInfoFragment.newInstance("UserMain"));
         return fragments;
     }
 

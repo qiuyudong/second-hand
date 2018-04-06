@@ -3,7 +3,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:background="@color/blue"
+    android:layout_height="50dp">
+    <ImageView
+        android:id="@+id/back"
+        android:layout_marginLeft="20dp"
+        android:layout_width="28dp"
+        android:layout_height="32dp"
+        android:layout_centerVertical="true"
+        android:src="@drawable/back"/>
+    <TextView
+        android:id="@+id/save"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:layout_alignParentEnd="true"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:layout_marginRight="20dp"
+        android:layout_centerVertical="true"
+        android:text="保存"/>
+</RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="100dp"
@@ -51,7 +72,7 @@
                 android:id="@+id/nickname_et"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
+                android:layout_marginLeft="20dp"
                 android:layout_toRightOf="@id/nickname_tv"
                 android:background="@null"
                 android:text="狮子座"
@@ -92,7 +113,7 @@
                 android:id="@+id/sex_et"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
+                android:layout_marginLeft="20dp"
                 android:layout_toRightOf="@id/sex_tv"
                 android:background="@null"
                 android:text="男"
@@ -124,7 +145,7 @@
                 android:id="@+id/studentid"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
+                android:layout_marginLeft="20dp"
                 android:layout_toRightOf="@id/studentid_tv"
                 android:background="@null"
                 android:text="2014034323"
@@ -152,12 +173,12 @@
                 android:textColor="@color/blue"
                 android:textSize="20sp" />
 
-            <EditText
+            <TextView
                 android:id="@+id/email_et"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignEnd="@+id/view"
-                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@id/email_tv"
+                android:layout_marginLeft="20dp"
                 android:background="@null"
                 android:text="qiuyudongjlu@qq.com"
                 android:textColor="@color/blue"
@@ -187,7 +208,7 @@
 
             <EditText
                 android:id="@+id/sign_et"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_toRightOf="@id/sign_tv"

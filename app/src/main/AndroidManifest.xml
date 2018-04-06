@@ -26,10 +26,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.GuideActivity" />
-        <activity android:name=".activity.SignupActivity"></activity>
-        <activity android:name=".activity.AddGoodsActivity"></activity>
-        <activity android:name=".activity.GoodsInformationActivity"></activity>
-        <activity android:name=".activity.ClassificationActivity"></activity>
+        <activity android:name=".activity.SignupActivity" />
+        <activity android:name=".activity.AddGoodsActivity" />
+        <activity android:name=".activity.GoodsInformationActivity" />
+        <activity android:name=".activity.ClassificationActivity" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -41,7 +41,8 @@
                 android:resource="@xml/filepaths" />
         </provider>
 
-        <activity android:name=".activity.MessageActivity"></activity>
+        <activity android:name=".activity.MessageActivity" />
+        <activity android:name=".activity.EditPersoninfo"></activity>
     </application>
 
 </manifest>

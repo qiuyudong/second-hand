@@ -10,14 +10,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hznu.echo.second_handmarket.R;
+import com.hznu.echo.second_handmarket.activity.EditPersoninfo;
 import com.hznu.echo.second_handmarket.activity.LoginActivity;
+import com.hznu.echo.second_handmarket.bean.Second_Goods;
 import com.hznu.echo.second_handmarket.bean.User;
 import com.hznu.echo.second_handmarket.utils.PreferenceUtils;
 import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,7 +30,9 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.datatype.BmobPointer;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.QueryListener;
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -53,31 +60,59 @@ public class UserInfoFragment extends BaseFragment {
     RelativeLayout likedRl;
     @BindView(R.id.setting)
     RelativeLayout setting;
+    @BindView(R.id.check_pic)
+    ImageView checkPic;
+    @BindView(R.id.check_arrow)
+    TextView checkArrow;
+    @BindView(R.id.published_pic)
+    ImageView publishedPic;
+    @BindView(R.id.published_arrow)
+    TextView publishedArrow;
+    @BindView(R.id.liked_pic)
+    ImageView likedPic;
+    @BindView(R.id.liked_arrow)
+    TextView likedArrow;
+    @BindView(R.id.setting_pic)
+    ImageView settingPic;
+    @BindView(R.id.setting_arrow)
+    TextView settingArrow;
 
 
-    private String objectId = null;
+    private String objectId;
+    private User currentUser;
 
+    public static UserInfoFragment newInstance(String name) {
+        Bundle args = new Bundle();
+        args.putString("name", name);
+        UserInfoFragment fragment = new UserInfoFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_personal_info, container, false);
         unbinder = ButterKnife.bind(this, view);
-        final User user = BmobUser.getCurrentUser(User.class);//获取已登录的用户
-        objectId = user.getObjectId();
+        currentUser = BmobUser.getCurrentUser(User.class);//获取已登录的用户
+        objectId = currentUser.getObjectId();
+        getLikedNumeber();
+        getPublishGoods();
         BmobQuery<User> query = new BmobQuery<User>();
         query.getObject(objectId, new QueryListener<User>() {
 
             @Override
             public void done(User object, BmobException e) {
-                if(e==null){
-                     setInfo(user);
-                }else{
-                    Log.i("bmob","失败："+e.getMessage()+","+e.getErrorCode());
+                if (e == null) {
+                    currentUser = object;
+                    setInfo(currentUser);
+                } else {
+                    Log.i("bmob", "失败：" + e.getMessage() + "," + e.getErrorCode());
                 }
             }
 
         });
+
         return view;
     }
 
@@ -91,6 +126,7 @@ public class UserInfoFragment extends BaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.logout:
+                logout();
                 break;
             case R.id.check_rl:
                 break;
@@ -99,6 +135,8 @@ public class UserInfoFragment extends BaseFragment {
             case R.id.liked_rl:
                 break;
             case R.id.setting:
+                Intent intent = new Intent(getActivity(), EditPersoninfo.class);
+                startActivity(intent);
                 break;
         }
     }
@@ -128,15 +166,52 @@ public class UserInfoFragment extends BaseFragment {
         dialog.show();
     }
 
+    private void getLikedNumeber() {
+        BmobQuery<Second_Goods> query = new BmobQuery<Second_Goods>();
+        query.addWhereRelatedTo("liked_goods", new BmobPointer(currentUser));
+        query.findObjects(new FindListener<Second_Goods>() {
+
+            @Override
+            public void done(List<Second_Goods> object, BmobException e) {
+                if (e == null) {
+                    likedNumber.setText(object.size() + "");
+                } else {
+                    Log.i("bmob", "失败：" + e.getMessage());
+                }
+            }
+
+        });
+
+    }
+
+    private void getPublishGoods() {
+        BmobQuery<Second_Goods> query = new BmobQuery<>();
+        query.addWhereEqualTo("upload_user", new BmobPointer(currentUser));
+        query.include("upload_user");
+        query.findObjects(new FindListener<Second_Goods>() {
+
+            @Override
+            public void done(List<Second_Goods> objects, BmobException e) {
+                if (e == null) {
+                    publishedNumber.setText(objects.size() + "");
+                } else {
+                    Log.e("bmob", "done: " + e.getMessage());
+                }
+            }
+        });
+
+    }
 
     //设置信息
-    private void setInfo(User user){
-
-        Picasso.with(getActivity())
-                .load(user.getHeadPortraitPath())
-                //设置加载失败的图片显示
-                .error(R.drawable.touxiang)
-                .into(imageView);
+    private void setInfo(User user) {
+        if (user.getHeadPortraitPath() != null) {
+            Picasso.with(getActivity())
+                    .load(user.getHeadPortraitPath())
+                    //设置加载失败的图片显示
+                    .error(R.drawable.touxiang)
+                    .into(imageView);
+        }
     }
+
 
 }
