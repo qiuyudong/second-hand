@@ -86,7 +86,8 @@
             android:name="Bmob_APP_KEY"
             android:value="36db1f7634113b1e9f86a9b986a46518" />
 
-        <activity android:name=".activity.AdminActivity"></activity>
+        <activity android:name=".activity.AdminActivity" />
+        <activity android:name=".activity.ResetPasswordActivity"></activity>
     </application>
 
 </manifest>

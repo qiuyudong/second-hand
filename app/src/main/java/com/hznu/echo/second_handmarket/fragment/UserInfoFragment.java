@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.hznu.echo.second_handmarket.R;
 import com.hznu.echo.second_handmarket.activity.EditPersoninfo;
 import com.hznu.echo.second_handmarket.activity.LoginActivity;
+import com.hznu.echo.second_handmarket.activity.ResetPasswordActivity;
 import com.hznu.echo.second_handmarket.bean.Second_Goods;
 import com.hznu.echo.second_handmarket.bean.User;
 import com.hznu.echo.second_handmarket.utils.PreferenceUtils;
@@ -122,7 +123,7 @@ public class UserInfoFragment extends BaseFragment {
         unbinder.unbind();
     }
 
-    @OnClick({R.id.logout, R.id.check_rl, R.id.published_rl, R.id.liked_rl, R.id.setting})
+    @OnClick({R.id.logout, R.id.check_rl, R.id.published_rl, R.id.liked_rl, R.id.setting, R.id.set_pw})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.logout:
@@ -137,6 +138,10 @@ public class UserInfoFragment extends BaseFragment {
             case R.id.setting:
                 Intent intent = new Intent(getActivity(), EditPersoninfo.class);
                 startActivity(intent);
+                break;
+            case R.id.set_pw:
+                Intent intentpw = new Intent(getActivity(), ResetPasswordActivity.class);
+                startActivity(intentpw);
                 break;
         }
     }

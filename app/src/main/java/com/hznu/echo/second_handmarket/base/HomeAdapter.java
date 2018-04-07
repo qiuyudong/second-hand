@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -128,7 +129,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             ((HeaderHolder)holder).hotGoods.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                   getNewData();
+                    getHotData();
                     ((HeaderHolder) holder).new_line.setVisibility(View.INVISIBLE);
                     ((HeaderHolder) holder).hot_line.setVisibility(View.VISIBLE);
                 }
@@ -136,7 +137,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             ((HeaderHolder)holder).newGoods.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    getHotData();
+                    getNewData();
                     ((HeaderHolder) holder).new_line.setVisibility(View.VISIBLE);
                     ((HeaderHolder) holder).hot_line.setVisibility(View.INVISIBLE);
                 }
@@ -240,15 +241,21 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         dialog.show();
         BmobQuery<Second_Goods> query = new BmobQuery<Second_Goods>();
         query.include("upload_user");
-        query.order("createdAt");
+        query.order("-createdAt");
         query.findObjects(new FindListener<Second_Goods>() {
             @Override
             public void done(List<Second_Goods> list, BmobException e) {
                 if (e == null) {
+                    goodslist.clear();
                     goodslist = new ArrayList<>(list);
+                    Log.e("time", goodslist.size()+"" );
+                    for(Second_Goods second_goods: goodslist){
+                        Log.e("time", second_goods.getCreatedAt());
+                    }
                     notifyDataSetChanged();
                     dialog.dismiss();
                 } else {
+                    Log.e("times", goodslist.size()+"" );
                     ToastUtil.showAndCancel(e.getMessage());
                     dialog.dismiss();
                 }
@@ -259,11 +266,12 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         dialog.show();
         BmobQuery<Second_Goods> query = new BmobQuery<Second_Goods>();
         query.include("upload_user");
-        query.order("liked_number");
+        query.order("-liked_number");
         query.findObjects(new FindListener<Second_Goods>() {
             @Override
             public void done(List<Second_Goods> list, BmobException e) {
                 if (e == null) {
+                    goodslist.clear();
                     goodslist = new ArrayList<>(list);
                     notifyDataSetChanged();
                     dialog.dismiss();
