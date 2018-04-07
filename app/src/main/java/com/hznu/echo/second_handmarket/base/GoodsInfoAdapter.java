@@ -123,7 +123,7 @@ public class GoodsInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 mholder.male.setVisibility(View.GONE);
             }
             mholder.user_signature.setText(user.getSignature());
-            mholder.goods_price.setText(second_goods.getPrice());
+            mholder.goods_price.setText(second_goods.getPrice() + "");
             mholder.goods_discr.setText(second_goods.getDescription());
             mholder.comment_count.setText("留言 - " + commentslist.size());
             if(isliked){
@@ -256,6 +256,7 @@ public class GoodsInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         relation.add(currentUser);
         //多对多关联指向`post`的`likes`字段
         second_goods.setLiked_user(relation);
+        second_goods.setLiked_number(second_goods.getLiked_number() + 1);
         second_goods.update(new UpdateListener() {
             @Override
             public void done(BmobException e) {
@@ -275,6 +276,7 @@ public class GoodsInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         relation.remove(currentUser);
         //多对多关联指向`post`的`likes`字段
         second_goods.setLiked_user(relation);
+        second_goods.setLiked_number(second_goods.getLiked_number() - 1);
         second_goods.update(new UpdateListener() {
             @Override
             public void done(BmobException e) {

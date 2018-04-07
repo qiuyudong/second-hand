@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.ScrollView;
 
 import com.hznu.echo.second_handmarket.R;
@@ -24,12 +23,6 @@ import butterknife.Unbinder;
 public class ClassificationFragment extends BaseFragment {
 
 
-    @BindView(R.id.car_goods)
-    ImageView carGoods;
-    @BindView(R.id.study_goods)
-    ImageView studyGoods;
-    @BindView(R.id.life_goods)
-    ImageView lifeGoods;
     @BindView(R.id.myScrollView)
     ScrollView myScrollView;
     Unbinder unbinder;
@@ -56,23 +49,44 @@ public class ClassificationFragment extends BaseFragment {
         unbinder.unbind();
     }
 
-    @OnClick({R.id.car_goods, R.id.study_goods, R.id.life_goods})
+
+    @OnClick({R.id.life_goods, R.id.study_goods, R.id.iv_digital, R.id.iv_beauty, R.id.iv_cloth, R.id.iv_sport, R.id.iv_trans})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.car_goods:
-                Intent intent = new Intent(getActivity(),ClassificationActivity.class);
-                intent.putExtra("type","出行");
-                startActivity(intent);
+            case R.id.life_goods:
+                Intent liftIntent = new Intent(getActivity(),ClassificationActivity.class);
+                liftIntent.putExtra("type","生活用品");
+                startActivity(liftIntent);
                 break;
             case R.id.study_goods:
-                Intent intent1 = new Intent(getActivity(),ClassificationActivity.class);
-                intent1.putExtra("type","学习");
-                startActivity(intent1);
+                Intent studyIntent = new Intent(getActivity(),ClassificationActivity.class);
+                studyIntent.putExtra("type","书籍资料");
+                startActivity(studyIntent);
                 break;
-            case R.id.life_goods:
-                Intent intent2 = new Intent(getActivity(),ClassificationActivity.class);
-                intent2.putExtra("type","生活");
-                startActivity(intent2);
+            case R.id.iv_digital:
+                Intent digitalIntent = new Intent(getActivity(),ClassificationActivity.class);
+                digitalIntent.putExtra("type","手机数码");
+                startActivity(digitalIntent);
+                break;
+            case R.id.iv_beauty:
+                Intent beautyIntent = new Intent(getActivity(),ClassificationActivity.class);
+                beautyIntent.putExtra("type","美妆护肤");
+                startActivity(beautyIntent);
+                break;
+            case R.id.iv_cloth:
+                Intent clothIntent = new Intent(getActivity(),ClassificationActivity.class);
+                clothIntent.putExtra("type","服饰配件");
+                startActivity(clothIntent);
+                break;
+            case R.id.iv_sport:
+                Intent sportIntent = new Intent(getActivity(),ClassificationActivity.class);
+                sportIntent.putExtra("type","运动户外");
+                startActivity(sportIntent);
+                break;
+            case R.id.iv_trans:
+                Intent transIntent = new Intent(getActivity(),ClassificationActivity.class);
+                transIntent.putExtra("type","出行必备");
+                startActivity(transIntent);
                 break;
         }
     }

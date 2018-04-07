@@ -1,30 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/hearder_container"
     android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:layout_height="340dp">
+    android:layout_height="242dp"
+    android:orientation="vertical">
+
     <com.youth.banner.Banner
         android:id="@+id/banner"
         android:layout_width="match_parent"
-        android:layout_height="300dp" />
+        android:layout_height="200dp" />
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:background="@color/blue"
         android:layout_height="40dp">
-        <Button
-            android:id="@+id/newGoods"
-            android:layout_weight="1"
+
+        <LinearLayout
+            android:id="@+id/new_ll"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="最近发布"/>
-        <Button
-            android:id="@+id/hotGoods"
-             android:text="最热的"
             android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/text"
+                android:text="最新发布" />
+
+            <View
+                android:id="@+id/new_line"
+                android:layout_marginTop="3dp"
+                android:layout_width="60dp"
+                android:layout_height="3dp"
+                android:background="@color/blue" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/hot_ll"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/text"
+                android:text="最受欢迎" />
+
+            <View
+                android:id="@+id/hot_line"
+                android:visibility="invisible"
+                android:layout_marginTop="3dp"
+                android:layout_width="60dp"
+                android:layout_height="3dp"
+                android:background="@color/blue" />
+        </LinearLayout>
+
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/itemDivider" />
 </LinearLayout>

@@ -1,5 +1,6 @@
 package com.hznu.echo.second_handmarket.base;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.GridLayoutManager;
@@ -7,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -15,7 +15,6 @@ import android.widget.TextView;
 import com.hznu.echo.second_handmarket.R;
 import com.hznu.echo.second_handmarket.activity.GoodsInformationActivity;
 import com.hznu.echo.second_handmarket.bean.Second_Goods;
-import com.hznu.echo.second_handmarket.bean.User;
 import com.hznu.echo.second_handmarket.utils.ToastUtil;
 import com.squareup.picasso.Picasso;
 import com.youth.banner.Banner;
@@ -25,7 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
-import cn.bmob.v3.datatype.BmobPointer;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -38,6 +36,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<Second_Goods> goodslist;
     private Context mcontext;
+    ProgressDialog dialog;
     //普通布局的type
     static final int TYPE_ITEM = 0;
     //脚布局
@@ -47,6 +46,12 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public HomeAdapter(List<Second_Goods> prolist, Context context) {
         goodslist = prolist;
         mcontext = context;
+        dialog = new ProgressDialog(context);
+        dialog.setCancelable(false);// 设置是否可以通过点击Back键取消
+        dialog.setCanceledOnTouchOutside(false);// 设置在点击Dialog外是否取消Dialog进度条
+        // 设置提示的title的图标，默认是没有的，如果没有设置title的话只设置Icon是不会显示图标的
+        dialog.setTitle("提示");
+        dialog.setMessage("正在加载...");
 
     }
 
@@ -69,7 +74,6 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     Intent intent = new Intent(mcontext, GoodsInformationActivity.class);
                     intent.putExtra("second_goods", second_goods);
                     mcontext.startActivity(intent);
-                    ToastUtil.showAndCancel("点击了");
                 }
             });
             return holder;
@@ -77,7 +81,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         if (getItemViewType(position) == TYPE_ITEM) {
             final GoodsHolder goodsholder = (GoodsHolder)holder;
             Second_Goods second_goods = goodslist.get(position-1);
@@ -112,64 +116,29 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             }
             goodsholder.goods_name.setText(second_goods.getName());
             goodsholder.goods_price.setText("¥ " + second_goods.getPrice());
-            BmobQuery<User>  query  = new BmobQuery<User>();
-            query.addWhereRelatedTo("liked_user",new BmobPointer(second_goods));
-            query.findObjects(new FindListener<User>() {
-                @Override
-                public void done(List<User> list, BmobException e) {
-                    if (e == null) {
-                       goodsholder.liked_number.setText(list.size()+"");
-                    } else {
-                        goodsholder.liked_number.setText("0");
-                    }
-                }
-            });
+            goodsholder.liked_number.setText(second_goods.getLiked_number()+"");
         } else {
-//            // 获取cardview的布局属性，记住这里要是布局的最外层的控件的布局属性，如果是里层的会报cast错误
-//            StaggeredGridLayoutManager.LayoutParams clp = (StaggeredGridLayoutManager.LayoutParams) ((HeaderHolder)holder).hearder_container.getLayoutParams();
-//            // 最最关键一步，设置当前view占满列数，这样就可以占据两列实现头部了
-//            clp.setFullSpan(true);
             Banner banner = ((HeaderHolder)holder).banner;
             //设置图片加载器
             banner.setImageLoader(new GlideImageLoader());
             List<Integer> list = new ArrayList<>();
-            list.add(R.mipmap.test2);
-            list.add(R.mipmap.test2);
-            list.add(R.mipmap.test2);
+            list.add(R.drawable.c_beauty);
+            list.add(R.drawable.c_home);
+            list.add(R.drawable.c_digital);
             ((HeaderHolder)holder).hotGoods.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Second_Goods x = new Second_Goods();
-                    x.setImagePath("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1522594157933&di=97996eb1a521fd1b6e1fc3169cb485fd&imgtype=0&src=http%3A%2F%2Fc.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F0b55b319ebc4b745b19f82c1c4fc1e178b8215d9.jpg");
-                    x.setName("asdasd");
-                    Second_Goods y = new Second_Goods();
-                    y.setImagePath("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1522594157933&di=97996eb1a521fd1b6e1fc3169cb485fd&imgtype=0&src=http%3A%2F%2Fc.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F0b55b319ebc4b745b19f82c1c4fc1e178b8215d9.jpg");
-                    y.setName("asdasd");
-                    Second_Goods z = new Second_Goods();
-                    z.setImagePath("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1522594157933&di=97996eb1a521fd1b6e1fc3169cb485fd&imgtype=0&src=http%3A%2F%2Fc.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F0b55b319ebc4b745b19f82c1c4fc1e178b8215d9.jpg");
-                    z.setName("asdasd");
-                    goodslist.add(x);
-                    goodslist.add(y);
-                    goodslist.add(z);
-                    notifyDataSetChanged();
+                   getNewData();
+                    ((HeaderHolder) holder).new_line.setVisibility(View.INVISIBLE);
+                    ((HeaderHolder) holder).hot_line.setVisibility(View.VISIBLE);
                 }
             });
             ((HeaderHolder)holder).newGoods.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Second_Goods x = new Second_Goods();
-                    x.setImagePath("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1522594157933&di=97996eb1a521fd1b6e1fc3169cb485fd&imgtype=0&src=http%3A%2F%2Fc.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F0b55b319ebc4b745b19f82c1c4fc1e178b8215d9.jpg");
-                    x.setName("wawawa");
-                    Second_Goods y = new Second_Goods();
-                    y.setImagePath("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1522594157933&di=97996eb1a521fd1b6e1fc3169cb485fd&imgtype=0&src=http%3A%2F%2Fc.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F0b55b319ebc4b745b19f82c1c4fc1e178b8215d9.jpg");
-                    y.setName("waawawa");
-                    Second_Goods z = new Second_Goods();
-                    z.setImagePath("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1522594157933&di=97996eb1a521fd1b6e1fc3169cb485fd&imgtype=0&src=http%3A%2F%2Fc.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F0b55b319ebc4b745b19f82c1c4fc1e178b8215d9.jpg");
-                    z.setName("wawawa");
-                    goodslist.add(x);
-                    goodslist.add(y);
-                    goodslist.add(z);
-                    notifyDataSetChanged();
+                    getHotData();
+                    ((HeaderHolder) holder).new_line.setVisibility(View.VISIBLE);
+                    ((HeaderHolder) holder).hot_line.setVisibility(View.INVISIBLE);
                 }
             });
             //设置图片集合
@@ -239,14 +208,17 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     class HeaderHolder extends RecyclerView.ViewHolder {
         public Banner banner;
         public LinearLayout hearder_container;
-        public Button newGoods, hotGoods;
+        public LinearLayout newGoods, hotGoods;
+        public View new_line, hot_line;
 
         public HeaderHolder(View itemView) {
             super(itemView);
             banner = (Banner) itemView.findViewById(R.id.banner);
             hearder_container = (LinearLayout) itemView.findViewById(R.id.hearder_container);
-            newGoods = (Button) itemView.findViewById(R.id.newGoods);
-            hotGoods = (Button) itemView.findViewById(R.id.hotGoods);
+            newGoods = (LinearLayout) itemView.findViewById(R.id.new_ll);
+            hotGoods = (LinearLayout) itemView.findViewById(R.id.hot_ll);
+            new_line = itemView.findViewById(R.id.new_line);
+            hot_line = itemView.findViewById(R.id.hot_line);
         }
     }
 
@@ -262,5 +234,44 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
              */
             Picasso.with(context).load((Integer) path).into(imageView);
         }
+    }
+
+    private void getNewData(){
+        dialog.show();
+        BmobQuery<Second_Goods> query = new BmobQuery<Second_Goods>();
+        query.include("upload_user");
+        query.order("createdAt");
+        query.findObjects(new FindListener<Second_Goods>() {
+            @Override
+            public void done(List<Second_Goods> list, BmobException e) {
+                if (e == null) {
+                    goodslist = new ArrayList<>(list);
+                    notifyDataSetChanged();
+                    dialog.dismiss();
+                } else {
+                    ToastUtil.showAndCancel(e.getMessage());
+                    dialog.dismiss();
+                }
+            }
+        });
+    }
+    private void getHotData(){
+        dialog.show();
+        BmobQuery<Second_Goods> query = new BmobQuery<Second_Goods>();
+        query.include("upload_user");
+        query.order("liked_number");
+        query.findObjects(new FindListener<Second_Goods>() {
+            @Override
+            public void done(List<Second_Goods> list, BmobException e) {
+                if (e == null) {
+                    goodslist = new ArrayList<>(list);
+                    notifyDataSetChanged();
+                    dialog.dismiss();
+                } else {
+                    ToastUtil.showAndCancel(e.getMessage());
+                    dialog.dismiss();
+                }
+            }
+        });
     }
 }

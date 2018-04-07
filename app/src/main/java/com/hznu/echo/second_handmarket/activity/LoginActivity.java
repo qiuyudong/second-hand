@@ -1,10 +1,12 @@
 package com.hznu.echo.second_handmarket.activity;
 
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
@@ -54,6 +56,13 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        boolean isGuideShow = PreferenceUtils.getBoolean(LoginActivity.this,
+                "is_user_guide_showed", false);
+        if (!isGuideShow) {
+            //进入引导页
+            startActivity(new Intent(LoginActivity.this, GuideActivity.class));
+            finish();
+        }
         boolean isUserLogined = PreferenceUtils.getBoolean(LoginActivity.this,
                 "is_user_logined", false);
         if (isUserLogined) {
@@ -139,8 +148,6 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
 
         login = (Button) findViewById(R.id.login);
         login.setOnClickListener(this);
-
-
     }
 
     @Override
@@ -175,7 +182,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
                 if (user.equals("") || pass.equals("")) {
                     Toast.makeText(LoginActivity.this, "账号密码不能为空", Toast.LENGTH_SHORT).show();
                 } else {
-                    isEmailVerified(user,pass);
+                    isEmailVerified(user, pass);
                 }
                 break;
             default:
@@ -186,17 +193,18 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
 
     /**
      * 判断该用户邮箱是否激活
+     *
      * @param username
      */
-    private void isEmailVerified(final String username, final String password){
+    private void isEmailVerified(final String username, final String password) {
         BmobQuery<User> query = new BmobQuery<User>();
         query.addWhereEqualTo("username", username);
         query.findObjects(new FindListener<User>() {
             @Override
             public void done(List<User> list, BmobException e) {
-                if(e == null){
+                if (e == null) {
                     isVerfied = list.get(0).getEmailVerified();
-                    if(isVerfied){
+                    if (isVerfied) {
                         {
                             User user1 = new User();
                             user1.setUsername(username);
@@ -204,20 +212,26 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
                             user1.login(new SaveListener<User>() {
                                 @Override
                                 public void done(User user, BmobException e) {
-                                    if(e==null){
+                                    if (e == null) {
                                         ToastUtil.showShort("登录成功");
                                         Log.d(TAG, "done: " + user.toString());
                                         saveState(user);
-                                        startActivity(new Intent(LoginActivity.this,MainActivity.class));
+                                        if (user.getRole() == 1) {
+                                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                        }else {
+                                            startActivity(new Intent(LoginActivity.this, AdminActivity.class));
+                                        }
                                         finish();
-                                    }else{
+                                    } else {
                                         ToastUtil.showShort(e.toString());
                                     }
                                 }
                             });
                         }
+                    } else {
+                        ToastUtil.showAndCancel("用户未激活");
                     }
-                }else {
+                } else {
                     ToastUtil.showAndCancel("不存在该用户");
                 }
             }
@@ -253,20 +267,43 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.forget:
+                showDialog();
                 break;
             case R.id.signup:
-                startActivity(new Intent(LoginActivity.this,SignupActivity.class));
+                startActivity(new Intent(LoginActivity.this, SignupActivity.class));
                 finish();
                 break;
         }
     }
 
-    private void saveState(User user){
-        PreferenceUtils.setBoolean(LoginActivity.this,"is_user_logined", true);
-        PreferenceUtils.setString(LoginActivity.this,"USER_NAME",user.getNickname());
-        PreferenceUtils.setString(LoginActivity.this,"USER_SEX",user.getSex());
-        PreferenceUtils.setString(LoginActivity.this,"USER_EMAIL",user.getEmail());
-        PreferenceUtils.setString(LoginActivity.this,"USER_SCHOOL",user.getSchool());
+    private void saveState(User user) {
+        PreferenceUtils.setBoolean(LoginActivity.this, "is_user_logined", true);
+        PreferenceUtils.setString(LoginActivity.this, "USER_NAME", user.getNickname());
+        PreferenceUtils.setString(LoginActivity.this, "USER_SEX", user.getSex());
+        PreferenceUtils.setString(LoginActivity.this, "USER_EMAIL", user.getEmail());
+        PreferenceUtils.setString(LoginActivity.this, "USER_SCHOOL", user.getSchool());
+        PreferenceUtils.setString(LoginActivity.this, "USER_ROLE", user.getRole() + "");
+    }
+
+    private void showDialog() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("提示")
+                .setMessage("请联系管理员修改密码，管理员邮箱：1482251673@qq.com")
+                .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog,
+                                        int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog,
+                                        int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .show();
     }
 }
 

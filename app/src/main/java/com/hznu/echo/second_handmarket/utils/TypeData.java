@@ -15,5 +15,5 @@ import java.util.List;
  */
 public class TypeData {
     public static final List<String> typeLists = new ArrayList<>(
-            Arrays.asList("出行", "学习", "生活", "其他"));
+            Arrays.asList("书籍资料", "手机数码", "生活用品", "服饰配件","出行必备","美妆护肤","运动户外"));
 }

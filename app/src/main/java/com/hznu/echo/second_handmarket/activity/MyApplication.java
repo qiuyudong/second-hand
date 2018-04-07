@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileReader;
 
 import cn.bmob.newim.BmobIM;
+import cn.bmob.v3.Bmob;
 
 /**
  * <pre>
@@ -29,7 +30,7 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         setInstance(this);
-        //Bmob.initialize(this, "36db1f7634113b1e9f86a9b986a46518");
+        Bmob.initialize(this, "36db1f7634113b1e9f86a9b986a46518");
         //TODO 集成：1.8、初始化IM SDK，并注册消息接收器
         if (getApplicationInfo().packageName.equals(getMyProcessName())){
             BmobIM.init(this);

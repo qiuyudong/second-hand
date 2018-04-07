@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 
 import com.hznu.echo.second_handmarket.R;
 import com.hznu.echo.second_handmarket.base.HomeAdapter;
@@ -31,10 +30,6 @@ import cn.bmob.v3.listener.FindListener;
  */
 
 public class HomeFragment extends BaseFragment {
-
-
-    @BindView(R.id.search)
-    EditText search;
     @BindView(R.id.goods_recycler_view)
     RecyclerView goodsRecyclerView;
     //下拉刷新
@@ -80,11 +75,6 @@ public class HomeFragment extends BaseFragment {
 
     private void initView () {
         goodsRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(),2));
-//        goodsRecyclerView.addItemDecoration(new ItemDecorationAlbumColumns(
-//                10,
-//                10));
-//        goodsRecyclerView.addItemDecoration(new RecycleViewDivider(getActivity(), LinearLayoutManager.HORIZONTAL,
-//                10, getResources().getColor(R.color.itemDivider)));
     }
     private void refreshList() {
         getActivity().runOnUiThread(new Runnable() {

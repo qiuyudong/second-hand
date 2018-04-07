@@ -117,14 +117,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         mClassificationBtnItem = new BottomNavigationItem(
                 R.drawable.fenlei, "分类").setActiveColorResource(R.color.blue);
         mCollectionsBtnItem = new BottomNavigationItem(
-                R.drawable.collection, "收藏").setActiveColorResource(R.color.blue);
+                R.drawable.message_home, "消息").setActiveColorResource(R.color.blue);
         mUserMainBtnItem = new BottomNavigationItem(
                 R.drawable.usermain, "我的").setActiveColorResource(R.color.blue);
         mBottomNavigationBar.addItem(mHomeBtnItem)
                 .addItem(mClassificationBtnItem)
                 .addItem(mCollectionsBtnItem)
                 .addItem(mUserMainBtnItem)
-                .setFirstSelectedPosition(1)//默认
+                .setFirstSelectedPosition(0)//默认
                 .initialise();
 
         mBottomNavigationBar.setTabSelectedListener(this);
@@ -142,7 +142,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
      */
     private void setDefaultFragment() {
         FragmentTransaction transaction = fManager.beginTransaction();
-        transaction.add(R.id.layFrame, fragmentLists.get(1));//默认
+        transaction.add(R.id.layFrame, fragmentLists.get(0));//默认
         transaction.commit();
     }
 

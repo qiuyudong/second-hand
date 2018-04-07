@@ -4,25 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
-    <FrameLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="1dp"
-        android:background="@color/white"
-        android:gravity="center">
-
-        <EditText
-            android:id="@+id/search"
-            android:layout_width="fill_parent"
-            android:layout_height="40dp"
-            android:background="@null"
-            android:hint="搜索"
-            android:maxLength="20"
-            android:paddingLeft="35dp"
-            android:paddingRight="60dp"></EditText>
-    </FrameLayout>
-
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh"
         android:layout_width="match_parent"

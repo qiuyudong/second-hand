@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="240dp"
+    android:layout_height="300dp"
     android:layout_marginLeft="20dp"
     android:orientation="vertical">
 
@@ -25,14 +25,13 @@
             android:text="狮子座"
             android:textColor="@color/black"
             android:layout_toRightOf="@id/user_head_portrait"
-            android:textSize="20sp"
             />
 
         <ImageView
             android:id="@+id/male"
             android:layout_toRightOf="@id/user_nickname"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="13dp"
+            android:layout_marginTop="8dp"
             android:layout_width="20dp"
             android:layout_height="wrap_content"
             android:visibility="gone"
@@ -51,6 +50,7 @@
             android:id="@+id/goods_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
             android:layout_toRightOf="@id/user_head_portrait"
             android:layout_below="@id/user_nickname"
             android:text="半小时前发布"/>
@@ -58,9 +58,9 @@
 
     <ImageView
         android:id="@+id/goods_photo"
-        android:layout_width="wrap_content"
-        android:layout_height="100dp"
-        android:layout_gravity="center"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="10dp"
         android:src="@drawable/touxiang" />
 
     <TextView
@@ -69,8 +69,7 @@
         android:layout_height="wrap_content"
         android:text="传递安德森"
         android:layout_marginTop="10dp"
-        android:textColor="@color/text"
-        android:textSize="21sp" />
+        android:textColor="@color/text" />
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="30dp">
@@ -79,7 +78,6 @@
             android:textColor="@color/pricecolor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="21sp"
             android:layout_marginRight="3dp"
             android:text="¥15"/>
         <ImageView
@@ -87,15 +85,15 @@
             android:src="@drawable/liked"
             android:layout_marginRight="20dp"
             android:layout_alignParentRight="true"
-            android:layout_width="20dp"
-            android:layout_height="wrap_content" />
+            android:layout_width="15dp"
+            android:layout_marginTop="2dp"
+            android:layout_height="15dp" />
         <TextView
             android:id="@+id/liked_number"
             android:textColor="@color/pricecolor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@id/liked"
-            android:textSize="21sp"
             android:layout_marginRight="3dp"
             android:text="15"/>
     </RelativeLayout>

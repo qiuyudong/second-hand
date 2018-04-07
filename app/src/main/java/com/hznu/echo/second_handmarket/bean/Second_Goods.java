@@ -17,9 +17,10 @@ public class Second_Goods extends BmobObject {
     private String type;  //物品类型
     private User upload_user; //上传用户
     private String imagePath; //上传图片路径
-    private String price;  //上传的价格
+    private Float price;  //上传的价格
     private String  description; //物品描述
     private Integer  state;  //物品状态
+    private Integer liked_number; //喜欢该物品的人数
     private BmobRelation liked_user;
 
     public String getName() {
@@ -54,11 +55,11 @@ public class Second_Goods extends BmobObject {
         this.imagePath = imagePath;
     }
 
-    public String getPrice() {
+    public Float getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(Float price) {
         this.price = price;
     }
 
@@ -86,6 +87,14 @@ public class Second_Goods extends BmobObject {
         this.liked_user = liked_user;
     }
 
+    public Integer getLiked_number() {
+        return liked_number;
+    }
+
+    public void setLiked_number(Integer likked_number) {
+        this.liked_number = likked_number;
+    }
+
     @Override
     public String toString() {
         return "Second_Goods{" +
@@ -96,6 +105,7 @@ public class Second_Goods extends BmobObject {
                 ", price='" + price + '\'' +
                 ", description='" + description + '\'' +
                 ", state=" + state +
+                ", liked_number=" + liked_number +
                 ", liked_user=" + liked_user +
                 '}';
     }

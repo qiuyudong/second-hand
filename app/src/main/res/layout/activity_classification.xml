@@ -1,25 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
+              android:background="@color/white"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
-    <FrameLayout
-        android:background="@color/white"
+    <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="1dp"
         android:gravity="center" >
+        <ImageView
+            android:src="@drawable/search"
+            android:layout_margin="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
         <EditText
             android:id="@+id/search"
             android:background="@null"
             android:layout_width="fill_parent"
             android:layout_height="40dp"
             android:maxLength="20"
+            android:layout_marginTop="5dp"
             android:hint="搜索"
-            android:paddingLeft="35dp"
+            android:layout_marginLeft="50dp"
+            android:maxLines="1"
             android:paddingRight="60dp" >
         </EditText>
-    </FrameLayout>
+        <LinearLayout
+            android:id="@+id/sort"
+            android:layout_below="@id/search"
+            android:layout_width="match_parent"
+            android:layout_height="30dp">
+            <LinearLayout
+                android:id="@+id/liked_number"
+                android:layout_weight="1"
+                android:layout_width="50dp"
+                android:gravity="center"
+                android:layout_height="30dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="点赞数"/>
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/sort"/>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/create_time"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_width="50dp"
+                android:layout_height="30dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:layout_gravity="center_vertical"
+                    android:text="发布时间"/>
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/sort"/>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/price"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_width="50dp"
+                android:layout_height="30dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:layout_gravity="center_vertical"
+                    android:text="价格"/>
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/sort"/>
+            </LinearLayout>
+        </LinearLayout>
+        <View
+            android:layout_marginTop="5dp"
+            android:background="@color/itemDivider"
+            android:layout_width="match_parent"
+            android:layout_below="@id/sort"
+            android:layout_height="1dp"/>
+    </RelativeLayout>
 
 
     <android.support.v4.widget.SwipeRefreshLayout

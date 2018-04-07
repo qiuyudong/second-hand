@@ -53,7 +53,6 @@
                      android:layout_height="wrap_content"
                      android:layout_marginLeft="10dp"
                      android:layout_marginRight="5dp"
-                     android:text="$12"
                      android:textColor="#e51c23"
                      android:textSize="22sp"/>
                  <TextView
@@ -82,9 +81,10 @@
 
                  <ImageView
                      android:id="@+id/goods_time_icon"
-                     android:layout_width="25dp"
-                     android:layout_height="25dp"
+                     android:layout_width="20dp"
+                     android:layout_height="20dp"
                      android:layout_marginLeft="5dp"
+                     android:layout_centerVertical="true"
                      android:src="@drawable/goods_time"/>
 
                  <TextView
@@ -93,9 +93,27 @@
                      android:layout_width="wrap_content"
                      android:layout_height="match_parent"
                      android:layout_marginLeft="5dp"
-                     android:layout_marginTop="2dp"
+                     android:layout_centerVertical="true"
                      android:textSize="18sp"
                      android:text="2013-12-12 23:32:22"/>
+                 <ImageView
+                     android:layout_alignParentEnd="true"
+                     android:layout_marginRight="10dp"
+                     android:id="@+id/liked_pic"
+                     android:src="@drawable/liked"
+                     android:layout_marginTop="3dp"
+                     android:layout_width="20dp"
+                     android:layout_height="20dp" />
+                 <TextView
+                     android:id="@+id/goods_like_number"
+                     android:layout_centerVertical="true"
+                     android:textColor="@color/textShallow"
+                     android:layout_width="wrap_content"
+                     android:layout_height="match_parent"
+                     android:layout_toLeftOf="@id/liked_pic"
+                     android:layout_marginRight="5dp"
+                     android:textSize="18sp"
+                     android:text="0"/>
              </RelativeLayout>
          </LinearLayout>
     </LinearLayout>

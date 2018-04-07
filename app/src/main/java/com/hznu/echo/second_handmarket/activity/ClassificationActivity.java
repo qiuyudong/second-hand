@@ -7,11 +7,15 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hznu.echo.second_handmarket.R;
@@ -24,22 +28,31 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 
 
 public class ClassificationActivity extends AppCompatActivity {
+
+    ProgressDialog dialog;
     @BindView(R.id.search)
     EditText search;
+    @BindView(R.id.liked_number)
+    LinearLayout likedNumber;
+    @BindView(R.id.create_time)
+    LinearLayout createTime;
+    @BindView(R.id.price)
+    LinearLayout price;
     @BindView(R.id.goods_recycler_view)
     RecyclerView goodsRecyclerView;
     @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout swipeRefresh;
-    ProgressDialog dialog;
     private List<Second_Goods> mSecond_goodses = new ArrayList<>();
     private TaskAdapter Adapter = new TaskAdapter(mSecond_goodses);
     private String type;
+    private boolean priceDesc, timeDesc, likedDesc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +60,7 @@ public class ClassificationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_classification);
         ButterKnife.bind(this);
         initData();
+        initView();
 //        设置管理
         swipeRefresh.setColorSchemeColors(getResources().getColor(R.color.blue));
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -72,6 +86,26 @@ public class ClassificationActivity extends AppCompatActivity {
 
     }
 
+    private void initView() {
+        //输入框监听
+        search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                filterData(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+    }
+
     private void refreshList() {
         this.runOnUiThread(new Runnable() {
             @Override
@@ -85,41 +119,53 @@ public class ClassificationActivity extends AppCompatActivity {
     // 获取数据
     private void getData() {
         BmobQuery<Second_Goods> query = new BmobQuery<Second_Goods>();
-        query.addWhereEqualTo("type",type);
+        query.addWhereEqualTo("type", type);
+        query.include("upload_user");
         query.findObjects(new FindListener<Second_Goods>() {
             @Override
             public void done(List<Second_Goods> list, BmobException e) {
-                if(e==null){
+                if (e == null) {
                     ToastUtil.showAndCancel("查询成功");
                     dialog.dismiss();
                     mSecond_goodses = new ArrayList<Second_Goods>(list);
+                    initButton();
                     //初始化构造器
-                    Adapter = new TaskAdapter( mSecond_goodses);
+                    Adapter = new TaskAdapter(mSecond_goodses);
                     goodsRecyclerView.setAdapter(Adapter);
                     RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(ClassificationActivity.this);
                     goodsRecyclerView.setLayoutManager(layoutManager);
-                }else{
+                } else {
                     ToastUtil.showAndCancel(e.toString());
                 }
             }
         });
     }
-    private void  refreshDate(){
+
+    private void initButton() {
+        if (mSecond_goodses.size() == 0) {
+            likedNumber.setEnabled(false);
+            price.setEnabled(false);
+            createTime.setEnabled(false);
+        }
+    }
+
+    private void refreshDate() {
         BmobQuery<Second_Goods> query = new BmobQuery<Second_Goods>();
-        query.addWhereEqualTo("type",type);
+        query.addWhereEqualTo("type", type);
+        query.include("upload_user");
         query.findObjects(new FindListener<Second_Goods>() {
             @Override
             public void done(List<Second_Goods> list, BmobException e) {
-                if(e==null){
+                if (e == null) {
                     ToastUtil.showAndCancel("查询成功");
                     dialog.dismiss();
                     mSecond_goodses = new ArrayList<Second_Goods>(list);
                     //初始化构造器
-                    Adapter = new TaskAdapter( mSecond_goodses);
+                    Adapter = new TaskAdapter(mSecond_goodses);
                     goodsRecyclerView.setAdapter(Adapter);
                     Adapter.notifyDataSetChanged();
                     swipeRefresh.setRefreshing(false);
-                }else{
+                } else {
                     ToastUtil.showAndCancel(e.toString());
                     swipeRefresh.setRefreshing(false);
                 }
@@ -127,12 +173,25 @@ public class ClassificationActivity extends AppCompatActivity {
         });
     }
 
-
+    @OnClick({R.id.liked_number, R.id.create_time, R.id.price})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.liked_number:
+                sortByLiked();
+                break;
+            case R.id.create_time:
+                sortByTime();
+                break;
+            case R.id.price:
+                sortByPrice();
+                break;
+        }
+    }
 
 
     //实现adapter和ViewHolder
     private class GoodsHolder extends RecyclerView.ViewHolder {
-        public TextView goods_name,goods_time,goods_user,goods_price;
+        public TextView goods_name, goods_time, goods_user, goods_price, goods_liked;
         public ImageView goods_photo;
 
         public GoodsHolder(View itemView) {
@@ -142,6 +201,7 @@ public class ClassificationActivity extends AppCompatActivity {
             goods_time = (TextView) itemView.findViewById(R.id.goods_time);
             goods_user = (TextView) itemView.findViewById(R.id.goods_user);
             goods_price = (TextView) itemView.findViewById(R.id.goods_price);
+            goods_liked = (TextView) itemView.findViewById(R.id.goods_like_number);
         }
     }
 
@@ -166,9 +226,8 @@ public class ClassificationActivity extends AppCompatActivity {
                     int position = holder.getAdapterPosition();
                     Second_Goods second_goods = goodslist.get(position);
                     Intent intent = new Intent(ClassificationActivity.this, GoodsInformationActivity.class);
-                    intent.putExtra("goods_id", second_goods.getObjectId());
+                    intent.putExtra("second_goods", second_goods);
                     startActivity(intent);
-                    ToastUtil.showAndCancel("点击了");
                 }
             });
             return holder;
@@ -186,16 +245,129 @@ public class ClassificationActivity extends AppCompatActivity {
                     //设置加载失败的图片显示
                     .error(R.drawable.logo)
                     .into(holder.goods_photo);
-            holder.goods_name.setText("¥"+second_goods.getName());
-            holder.goods_price.setText(second_goods.getPrice());
+            holder.goods_name.setText(second_goods.getName());
+            holder.goods_price.setText("¥ " + second_goods.getPrice());
             holder.goods_time.setText(second_goods.getCreatedAt());
             holder.goods_user.setText(second_goods.getUpload_user().getNickname());
+            holder.goods_liked.setText(second_goods.getLiked_number() + "");
         }
 
         @Override
         public int getItemCount() {
             return goodslist.size();
         }
+    }
+
+
+    private void sortByLiked() {
+        dialog.show();
+        BmobQuery<Second_Goods> query = new BmobQuery<Second_Goods>();
+        query.addWhereEqualTo("type", type);
+        query.include("upload_user");
+        if (likedDesc) {
+            query.order("-liked_number");
+        } else {
+            query.order("liked_number");
+        }
+        query.findObjects(new FindListener<Second_Goods>() {
+            @Override
+            public void done(List<Second_Goods> list, BmobException e) {
+                if (e == null) {
+                    ToastUtil.showAndCancel("查询成功");
+                    dialog.dismiss();
+                    mSecond_goodses = new ArrayList<Second_Goods>(list);
+                    //初始化构造器
+                    Adapter = new TaskAdapter(mSecond_goodses);
+                    goodsRecyclerView.setAdapter(Adapter);
+                    Adapter.notifyDataSetChanged();
+                    likedDesc = !likedDesc;
+                } else {
+                    ToastUtil.showAndCancel(e.toString());
+                }
+            }
+        });
+    }
+
+    private void sortByTime() {
+        dialog.show();
+        BmobQuery<Second_Goods> query = new BmobQuery<Second_Goods>();
+        query.addWhereEqualTo("type", type);
+        query.include("upload_user");
+        if (timeDesc) {
+            query.order("-createdAt");
+        } else {
+            query.order("createdAt");
+        }
+        query.findObjects(new FindListener<Second_Goods>() {
+            @Override
+            public void done(List<Second_Goods> list, BmobException e) {
+                if (e == null) {
+                    ToastUtil.showAndCancel("查询成功");
+                    dialog.dismiss();
+                    mSecond_goodses = new ArrayList<Second_Goods>(list);
+                    //初始化构造器
+                    Adapter = new TaskAdapter(mSecond_goodses);
+                    goodsRecyclerView.setAdapter(Adapter);
+                    Adapter.notifyDataSetChanged();
+                    timeDesc = !timeDesc;
+                } else {
+                    ToastUtil.showAndCancel(e.toString());
+                }
+            }
+        });
+    }
+
+    private void sortByPrice() {
+        dialog.show();
+        BmobQuery<Second_Goods> query = new BmobQuery<Second_Goods>();
+        query.addWhereEqualTo("type", type);
+        query.include("upload_user");
+        if (priceDesc) {
+            query.order("-price");
+        } else {
+            query.order("price");
+        }
+        query.findObjects(new FindListener<Second_Goods>() {
+            @Override
+            public void done(List<Second_Goods> list, BmobException e) {
+                if (e == null) {
+                    ToastUtil.showAndCancel("查询成功");
+                    dialog.dismiss();
+                    mSecond_goodses = new ArrayList<Second_Goods>(list);
+                    //初始化构造器
+                    Adapter = new TaskAdapter(mSecond_goodses);
+                    goodsRecyclerView.setAdapter(Adapter);
+                    Adapter.notifyDataSetChanged();
+                    priceDesc = !priceDesc;
+                } else {
+                    ToastUtil.showAndCancel(e.toString());
+                }
+            }
+        });
+    }
+
+    /**
+     * 根据输入框中的值来过滤数据并更新ListView
+     *
+     * @param filterStr
+     */
+    private void filterData(String filterStr) {
+        List<Second_Goods>  filtersecond_goods = new ArrayList<>();
+        if (TextUtils.isEmpty(filterStr)) {
+            filtersecond_goods = mSecond_goodses;
+        } else {
+            filtersecond_goods.clear();
+            for (Second_Goods second_goods : mSecond_goodses) {
+                String name = second_goods.getName();
+                String discri = second_goods.getDescription();
+                if (name.indexOf(filterStr) != -1 || discri.indexOf(filterStr) != -1 ){
+                    filtersecond_goods.add(second_goods);
+                }
+            }
+        }
+        //初始化构造器
+        Adapter = new TaskAdapter(filtersecond_goods);
+        goodsRecyclerView.setAdapter(Adapter);
     }
 
 }

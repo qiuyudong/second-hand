@@ -13,81 +13,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <TextView
-                        android:id="@+id/text_trans"
-                        android:layout_width="wrap_content"
-                        android:layout_height="20dp"
-                        android:layout_margin="15dp"
-                        android:layout_centerInParent="true"
-                        android:text="出行物品"
-                        android:textColor="@color/textShallow" />
-                    <View
-                        android:layout_width="60dp"
-                        android:layout_height="1dp"
-                        android:layout_toLeftOf="@id/text_trans"
-                        android:layout_centerVertical="true"
-                        android:background="@color/black" />
-                    <View
-                        android:layout_width="60dp"
-                        android:layout_height="1dp"
-                        android:layout_toRightOf="@id/text_trans"
-                        android:layout_centerVertical="true"
-                        android:background="@color/black" />
-                </RelativeLayout>
-
-                <ImageView
-                    android:id="@+id/car_goods"
-                    android:layout_width="match_parent"
-                    android:layout_height="250dp"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/car_goods" />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <TextView
-                        android:id="@+id/text_study"
-                        android:layout_width="wrap_content"
-                        android:layout_height="20dp"
-                        android:layout_margin="15dp"
-                        android:layout_centerInParent="true"
-                        android:text="学习物品"
-                        android:textColor="@color/textShallow" />
-                    <View
-                        android:layout_width="60dp"
-                        android:layout_height="1dp"
-                        android:layout_toLeftOf="@id/text_study"
-                        android:layout_centerVertical="true"
-                        android:background="@color/black" />
-                    <View
-                        android:layout_width="60dp"
-                        android:layout_height="1dp"
-                        android:layout_toRightOf="@id/text_study"
-                        android:layout_centerVertical="true"
-                        android:background="@color/black" />
-                </RelativeLayout>
-
-                <ImageView
-                    android:id="@+id/study_goods"
-                    android:layout_width="match_parent"
-                    android:layout_height="250dp"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/study_goods" />
-            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -109,13 +34,13 @@
                         android:layout_height="1dp"
                         android:layout_toLeftOf="@id/text_life"
                         android:layout_centerVertical="true"
-                        android:background="@color/black" />
+                        android:background="@color/textShallow" />
                     <View
                         android:layout_width="60dp"
                         android:layout_height="1dp"
                         android:layout_toRightOf="@id/text_life"
                         android:layout_centerVertical="true"
-                        android:background="@color/black" />
+                        android:background="@color/textShallow" />
                 </RelativeLayout>
 
                 <ImageView
@@ -123,7 +48,229 @@
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
                     android:scaleType="fitXY"
-                    android:src="@drawable/life_goods" />
+                    android:src="@drawable/c_home" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/text_study"
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:layout_margin="15dp"
+                        android:layout_centerInParent="true"
+                        android:text="书籍资料"
+                        android:textColor="@color/textShallow" />
+                    <View
+                        android:layout_width="60dp"
+                        android:layout_height="1dp"
+                        android:layout_toLeftOf="@id/text_study"
+                        android:layout_centerVertical="true"
+                        android:background="@color/textShallow" />
+                    <View
+                        android:layout_width="60dp"
+                        android:layout_height="1dp"
+                        android:layout_toRightOf="@id/text_study"
+                        android:layout_centerVertical="true"
+                        android:background="@color/textShallow" />
+                </RelativeLayout>
+
+                <ImageView
+                    android:id="@+id/study_goods"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/c_book" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/text_digital"
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:layout_margin="15dp"
+                        android:layout_centerInParent="true"
+                        android:text="手机数码"
+                        android:textColor="@color/textShallow" />
+                    <View
+                        android:layout_width="60dp"
+                        android:layout_height="1dp"
+                        android:layout_toLeftOf="@id/text_digital"
+                        android:layout_centerVertical="true"
+                        android:background="@color/textShallow" />
+                    <View
+                        android:layout_width="60dp"
+                        android:layout_height="1dp"
+                        android:layout_toRightOf="@id/text_digital"
+                        android:layout_centerVertical="true"
+                        android:background="@color/textShallow" />
+                </RelativeLayout>
+
+                <ImageView
+                    android:id="@+id/iv_digital"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/c_digital" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/tv_beauty"
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:layout_margin="15dp"
+                        android:layout_centerInParent="true"
+                        android:text="美妆护肤"
+                        android:textColor="@color/textShallow" />
+                    <View
+                        android:layout_width="60dp"
+                        android:layout_height="1dp"
+                        android:layout_toLeftOf="@id/tv_beauty"
+                        android:layout_centerVertical="true"
+                        android:background="@color/textShallow" />
+                    <View
+                        android:layout_width="60dp"
+                        android:layout_height="1dp"
+                        android:layout_toRightOf="@id/tv_beauty"
+                        android:layout_centerVertical="true"
+                        android:background="@color/textShallow" />
+                </RelativeLayout>
+
+                <ImageView
+                    android:id="@+id/iv_beauty"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/c_beauty" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/text_cloth"
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:layout_margin="15dp"
+                        android:layout_centerInParent="true"
+                        android:text="服饰配件"
+                        android:textColor="@color/textShallow" />
+                    <View
+                        android:layout_width="60dp"
+                        android:layout_height="1dp"
+                        android:layout_toLeftOf="@id/text_cloth"
+                        android:layout_centerVertical="true"
+                        android:background="@color/textShallow" />
+                    <View
+                        android:layout_width="60dp"
+                        android:layout_height="1dp"
+                        android:layout_toRightOf="@id/text_cloth"
+                        android:layout_centerVertical="true"
+                        android:background="@color/textShallow" />
+                </RelativeLayout>
+
+                <ImageView
+                    android:id="@+id/iv_cloth"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/c_cloth" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/text_sport"
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:layout_margin="15dp"
+                        android:layout_centerInParent="true"
+                        android:text="运动户外"
+                        android:textColor="@color/textShallow" />
+                    <View
+                        android:layout_width="60dp"
+                        android:layout_height="1dp"
+                        android:layout_toLeftOf="@id/text_sport"
+                        android:layout_centerVertical="true"
+                        android:background="@color/textShallow" />
+                    <View
+                        android:layout_width="60dp"
+                        android:layout_height="1dp"
+                        android:layout_toRightOf="@id/text_sport"
+                        android:layout_centerVertical="true"
+                        android:background="@color/textShallow" />
+                </RelativeLayout>
+
+                <ImageView
+                    android:id="@+id/iv_sport"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/c_sport" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/text_trans"
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:layout_margin="15dp"
+                        android:layout_centerInParent="true"
+                        android:text="出行必备"
+                        android:textColor="@color/textShallow" />
+                    <View
+                        android:layout_width="60dp"
+                        android:layout_height="1dp"
+                        android:layout_toLeftOf="@id/text_trans"
+                        android:layout_centerVertical="true"
+                        android:background="@color/textShallow" />
+                    <View
+                        android:layout_width="60dp"
+                        android:layout_height="1dp"
+                        android:layout_toRightOf="@id/text_trans"
+                        android:layout_centerVertical="true"
+                        android:background="@color/textShallow" />
+                </RelativeLayout>
+
+                <ImageView
+                    android:id="@+id/iv_trans"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/c_trans" />
             </LinearLayout>
 
         </LinearLayout>
