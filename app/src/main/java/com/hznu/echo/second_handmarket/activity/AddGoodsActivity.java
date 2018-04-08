@@ -288,6 +288,7 @@ public class AddGoodsActivity extends AppCompatActivity {
             mSecond_goods.setUpload_user(user);
             mSecond_goods.setImagePath(imagepath);
             mSecond_goods.setLiked_number(0);
+            mSecond_goods.setState(1);
             mSecond_goods.save(new SaveListener<String>() {
                 @Override
                 public void done(String s, BmobException e) {

@@ -180,7 +180,7 @@
                 android:layout_toRightOf="@id/email_tv"
                 android:layout_marginLeft="20dp"
                 android:background="@null"
-                android:text="qiuyudongjlu@qq.com"
+                android:text="wengqian@qq.com"
                 android:textColor="@color/blue"
                 android:textSize="20sp" />
 

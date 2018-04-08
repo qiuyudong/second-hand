@@ -31,9 +31,9 @@ public class GuideActivity extends Activity {
 //            R.drawable.guide_1, R.drawable.guide_2, R.drawable.guide_3
 //    };
     private static final int[] mImageIds = new int[]{
-            R.drawable.guide,
-            R.drawable.guide,
-            R.drawable.guide
+            R.drawable.guide1,
+            R.drawable.guide2,
+            R.drawable.guide3
 };
 
 

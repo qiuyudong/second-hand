@@ -2,8 +2,8 @@ package com.hznu.echo.second_handmarket.utils;
 
 /**
  * <pre>
- *     author : qiuyudong
- *     e-mail : qiuyudongjlu@qq.com
+ *     author : wengqian
+ *     e-mail : wengqianjlu@qq.com
  *     time   : 2018/03/21
  *     desc   :
  *     version: 1.0

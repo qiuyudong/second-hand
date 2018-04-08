@@ -10,7 +10,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 /**基类
- * @author :qiuyudong
+ * @author :wengqian
  * @project:BaseActivity
  */
 public class BaseFragment extends Fragment {

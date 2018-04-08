@@ -77,6 +77,8 @@ public class UserInfoFragment extends BaseFragment {
     ImageView settingPic;
     @BindView(R.id.setting_arrow)
     TextView settingArrow;
+    @BindView(R.id.nickname)
+    TextView nickname;
 
 
     private String objectId;
@@ -215,6 +217,7 @@ public class UserInfoFragment extends BaseFragment {
                     //设置加载失败的图片显示
                     .error(R.drawable.touxiang)
                     .into(imageView);
+            nickname.setText(user.getNickname());
         }
     }
 

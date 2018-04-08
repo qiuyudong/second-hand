@@ -30,7 +30,7 @@ import cn.bmob.v3.listener.FindListener;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
- * Created by qiuyudong on 2018/4/1.
+ * Created by wengqian on 2018/4/1.
  */
 
 

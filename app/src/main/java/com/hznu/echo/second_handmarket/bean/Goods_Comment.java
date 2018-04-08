@@ -3,7 +3,7 @@ package com.hznu.echo.second_handmarket.bean;
 import cn.bmob.v3.BmobObject;
 
 /**
- * Created by qiuyudong on 2018/4/5.
+ * Created by wengqian on 2018/4/5.
  */
 
 public class Goods_Comment extends BmobObject {

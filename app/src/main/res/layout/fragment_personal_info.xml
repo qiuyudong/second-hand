@@ -5,20 +5,36 @@
               android:layout_height="match_parent">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="190dp"
+        android:layout_height="wrap_content"
         android:background="@color/blue">
-        <de.hdodenhof.circleimageview.CircleImageView
-          android:id="@+id/imageView"
-          android:layout_width="match_parent"
-          android:layout_height="80dp"
-          android:src="@drawable/touxiang"
-          android:layout_centerInParent="true"
-         />
+        <LinearLayout
+            android:id="@+id/ll_head"
+            android:layout_width="240dp"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:layout_height="wrap_content">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/imageView"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/touxiang"
+                />
+            <TextView
+                android:id="@+id/nickname"
+                android:text="nick"
+                android:textColor="@color/white"
+                android:layout_gravity="center"
+                android:layout_marginLeft="20dp"
+                android:textSize="26sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
         <Button
             android:id="@+id/logout"
             android:layout_width="240dp"
             android:layout_height="40dp"
-            android:layout_below="@id/imageView"
+            android:layout_below="@id/ll_head"
             android:background="@drawable/buttonsecond"
             android:text="退出登录"
             android:layout_centerHorizontal="true"

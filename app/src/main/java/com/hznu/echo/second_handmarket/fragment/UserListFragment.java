@@ -12,8 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.hznu.echo.second_handmarket.R;
-import com.hznu.echo.second_handmarket.base.GoodsCheckedAdapter;
-import com.hznu.echo.second_handmarket.bean.Second_Goods;
+import com.hznu.echo.second_handmarket.base.UserInfoAdapter;
+import com.hznu.echo.second_handmarket.bean.User;
 import com.hznu.echo.second_handmarket.utils.ToastUtil;
 
 import java.util.ArrayList;
@@ -30,15 +30,15 @@ import cn.bmob.v3.listener.FindListener;
  * Created by wengqian on 2018/4/7.
  */
 
-public class GoodsCheckFragment extends Fragment {
+public class UserListFragment extends Fragment {
     @BindView(R.id.goods_recycler_view)
     RecyclerView goodsRecyclerView;
     //下拉刷新
     private SwipeRefreshLayout swipeRefresh;
     Unbinder unbinder;
     ProgressDialog dialog;
-    private GoodsCheckedAdapter homeAdapter;
-    private List<Second_Goods> mSecond_goodses = new ArrayList<>();
+    private UserInfoAdapter homeAdapter;
+    private List<User> users = new ArrayList<>();
 
     @Nullable
     @Override
@@ -86,19 +86,16 @@ public class GoodsCheckFragment extends Fragment {
 
     // 获取数据
     private void getData() {
-        BmobQuery<Second_Goods> query = new BmobQuery<Second_Goods>();
-        query.include("upload_user");
-        query.addWhereEqualTo("state",0);
-        query.findObjects(new FindListener<Second_Goods>() {
+        BmobQuery<User> query = new BmobQuery<User>();
+        query.setLimit(100);
+        query.addWhereEqualTo("role",1);
+        query.findObjects(new FindListener<User>() {
             @Override
-            public void done(List<Second_Goods> list, BmobException e) {
+            public void done(List<User> list, BmobException e) {
                 if (e == null) {
                     dialog.dismiss();
-                    mSecond_goodses = new ArrayList<>(list);
-                    if(list.size() == 0){
-                        ToastUtil.showAndCancel("暂无待审核物品");
-                    }
-                    homeAdapter = new GoodsCheckedAdapter(mSecond_goodses, getActivity());
+                    users = new ArrayList<>(list);
+                    homeAdapter = new UserInfoAdapter(users, getActivity());
                     goodsRecyclerView.setAdapter(homeAdapter);
                 } else {
                     ToastUtil.showAndCancel(e.toString());
@@ -108,16 +105,16 @@ public class GoodsCheckFragment extends Fragment {
     }
 
     private void refreshDate() {
-        BmobQuery<Second_Goods> query = new BmobQuery<>();
-        query.include("upload_user");
-        query.addWhereEqualTo("state",0);
-        query.findObjects(new FindListener<Second_Goods>() {
+        BmobQuery<User> query = new BmobQuery<>();
+        query.setLimit(100);
+        query.addWhereEqualTo("role",1);
+        query.findObjects(new FindListener<User>() {
             @Override
-            public void done(List<Second_Goods> list, BmobException e) {
+            public void done(List<User> list, BmobException e) {
                 if (e == null) {
                     dialog.dismiss();
-                    mSecond_goodses.clear();
-                    mSecond_goodses.addAll(list);
+                    users.clear();
+                    users.addAll(list);
                     homeAdapter.notifyDataSetChanged();
                     swipeRefresh.setRefreshing(false);
                 } else {

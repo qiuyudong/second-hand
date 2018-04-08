@@ -18,7 +18,7 @@ import java.util.List;
  * 支持扩展多种item布局；
  * 支持设置recycler view点击/长按事件
  * @param <T>
- * @author smile
+ * @author wengqian
  * @link https://github.com/bodismile/BaseRecyclerAdapter
  */
 public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseRecyclerHolder> {

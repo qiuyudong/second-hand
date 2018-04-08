@@ -14,7 +14,7 @@ import android.widget.LinearLayout;
 import com.hznu.echo.second_handmarket.R;
 
 /**
- * Created by qiuyudong on 2018/4/7.
+ * Created by wengqian on 2018/4/7.
  */
 
 public class EditTextLayout extends LinearLayout {

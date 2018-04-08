@@ -7,8 +7,8 @@ import android.view.View;
 
 /**
  * <pre>
- *     author : qiuyudong
- *     e-mail : qiuyudongjlu@qq.com
+ *     author : wengqian
+ *     e-mail : wengqianjlu@qq.com
  *     time   : 2018/03/28
  *     desc   :
  *     version: 1.0

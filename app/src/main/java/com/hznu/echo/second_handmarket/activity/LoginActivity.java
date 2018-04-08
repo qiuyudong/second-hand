@@ -65,9 +65,15 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         }
         boolean isUserLogined = PreferenceUtils.getBoolean(LoginActivity.this,
                 "is_user_logined", false);
-        if (isUserLogined) {
-            //进入登录界面
+        String role = PreferenceUtils.getString(LoginActivity.this,"USER_ROLE","1");
+        Log.d(TAG, role);
+        if (isUserLogined && role.equals("1")) {
+            //进入主界面
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            finish();
+        }else if(isUserLogined && role.equals("0")) {
+            //进入管理员界面
+            startActivity(new Intent(LoginActivity.this, AdminActivity.class));
             finish();
         }
         setContentView(R.layout.activity_login);
@@ -271,7 +277,6 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
                 break;
             case R.id.signup:
                 startActivity(new Intent(LoginActivity.this, SignupActivity.class));
-                finish();
                 break;
         }
     }

@@ -5,7 +5,7 @@ import cn.bmob.newim.event.OfflineMessageEvent;
 import cn.bmob.newim.listener.BmobIMMessageHandler;
 
 /**
- * Created by qiuyudong on 2018/4/6.
+ * Created by wengqian on 2018/4/6.
  */
 
 //TODO 集成：1.6、自定义消息接收器处理在线消息和离线消息
