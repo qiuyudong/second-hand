@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
                     }
                 }
             });
+            EventBus.getDefault().register(this);
             //TODO 连接：3.3、监听连接状态，可通过BmobIM.getInstance().getCurrentStatus()来获取当前的长连接状态
             BmobIM.getInstance().setOnConnectStatusChangeListener(new ConnectStatusChangeListener() {
                 @Override
@@ -231,6 +232,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
         //清理导致内存泄露的资源
         BmobIM.getInstance().clear();
     }
@@ -275,7 +277,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         //TODO 会话：4.4、获取全部会话的未读消息数量
         int count = (int) BmobIM.getInstance().getAllUnReadCount();
         if (count > 0) {
-           ToastUtil.showAndCancel("youxiaoxi");
+           ToastUtil.showAndCancel("有信息～");
         } else {
 //            ToastUtil.showAndCancel("youxiaoxi");
         }

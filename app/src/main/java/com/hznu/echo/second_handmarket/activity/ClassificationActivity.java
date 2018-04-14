@@ -119,15 +119,23 @@ public class ClassificationActivity extends AppCompatActivity {
     // 获取数据
     private void getData() {
         BmobQuery<Second_Goods> query = new BmobQuery<Second_Goods>();
+        BmobQuery<Second_Goods> query1 = new BmobQuery<Second_Goods>();
         query.addWhereEqualTo("type", type);
         query.include("upload_user");
-        query.findObjects(new FindListener<Second_Goods>() {
+        query1.addWhereEqualTo("state",1);
+        query.order("-createdAt");
+        List<BmobQuery<Second_Goods>> andQuerys = new ArrayList<>();
+        andQuerys.add(query);
+        andQuerys.add(query1);
+        BmobQuery<Second_Goods> mainquery = new BmobQuery<>();
+        mainquery.and(andQuerys);
+        mainquery.findObjects(new FindListener<Second_Goods>() {
             @Override
-            public void done(List<Second_Goods> list, BmobException e) {
+            public void done(List<Second_Goods> object, BmobException e) {
                 if (e == null) {
                     ToastUtil.showAndCancel("查询成功");
                     dialog.dismiss();
-                    mSecond_goodses = new ArrayList<Second_Goods>(list);
+                    mSecond_goodses = new ArrayList<>(object);
                     initButton();
                     //初始化构造器
                     Adapter = new TaskAdapter(mSecond_goodses);
@@ -151,15 +159,24 @@ public class ClassificationActivity extends AppCompatActivity {
 
     private void refreshDate() {
         BmobQuery<Second_Goods> query = new BmobQuery<Second_Goods>();
+        BmobQuery<Second_Goods> query1 = new BmobQuery<Second_Goods>();
         query.addWhereEqualTo("type", type);
         query.include("upload_user");
-        query.findObjects(new FindListener<Second_Goods>() {
+        query1.addWhereEqualTo("state",1);
+        query.order("-createdAt");
+        List<BmobQuery<Second_Goods>> andQuerys = new ArrayList<>();
+        andQuerys.add(query);
+        andQuerys.add(query1);
+        BmobQuery<Second_Goods> mainquery = new BmobQuery<>();
+        mainquery.and(andQuerys);
+        mainquery.findObjects(new FindListener<Second_Goods>() {
             @Override
-            public void done(List<Second_Goods> list, BmobException e) {
+            public void done(List<Second_Goods> object, BmobException e) {
                 if (e == null) {
                     ToastUtil.showAndCancel("查询成功");
                     dialog.dismiss();
-                    mSecond_goodses = new ArrayList<Second_Goods>(list);
+                    mSecond_goodses = new ArrayList<>(object);
+                    initButton();
                     //初始化构造器
                     Adapter = new TaskAdapter(mSecond_goodses);
                     goodsRecyclerView.setAdapter(Adapter);
@@ -167,8 +184,7 @@ public class ClassificationActivity extends AppCompatActivity {
                     swipeRefresh.setRefreshing(false);
                 } else {
                     ToastUtil.showAndCancel(e.toString());
-                    swipeRefresh.setRefreshing(false);
-                }
+                    swipeRefresh.setRefreshing(false);                }
             }
         });
     }

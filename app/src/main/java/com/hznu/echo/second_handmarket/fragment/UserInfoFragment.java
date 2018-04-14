@@ -21,8 +21,10 @@ import com.hznu.echo.second_handmarket.activity.ResetPasswordActivity;
 import com.hznu.echo.second_handmarket.bean.Second_Goods;
 import com.hznu.echo.second_handmarket.bean.User;
 import com.hznu.echo.second_handmarket.utils.PreferenceUtils;
+import com.hznu.echo.second_handmarket.utils.ToastUtil;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -99,6 +101,7 @@ public class UserInfoFragment extends BaseFragment {
         unbinder = ButterKnife.bind(this, view);
         currentUser = BmobUser.getCurrentUser(User.class);//获取已登录的用户
         objectId = currentUser.getObjectId();
+        getNoCheckedNumeber();
         getLikedNumeber();
         getPublishGoods();
         BmobQuery<User> query = new BmobQuery<User>();
@@ -190,7 +193,29 @@ public class UserInfoFragment extends BaseFragment {
         });
 
     }
+    private void getNoCheckedNumeber() {
+        BmobQuery<Second_Goods> query = new BmobQuery<>();
+        BmobQuery<Second_Goods> query2 = new BmobQuery<>();
+        query.addWhereEqualTo("upload_user", new BmobPointer(currentUser));
+        query2.addWhereEqualTo("state",0);
+        query.include("upload_user");
+        List<BmobQuery<Second_Goods>> andQuerys = new ArrayList<>();
+        andQuerys.add(query);
+        andQuerys.add(query2);
+        BmobQuery<Second_Goods> mainquery = new BmobQuery<>();
+        mainquery.and(andQuerys);
+        mainquery.findObjects(new FindListener<Second_Goods>() {
+            @Override
+            public void done(List<Second_Goods> object, BmobException e) {
+                if (e == null) {
+                    checkNumber.setText(object.size() + "");
+                } else {
+                    ToastUtil.showAndCancel(e.toString());
+                }
+            }
+        });
 
+    }
     private void getPublishGoods() {
         BmobQuery<Second_Goods> query = new BmobQuery<>();
         query.addWhereEqualTo("upload_user", new BmobPointer(currentUser));

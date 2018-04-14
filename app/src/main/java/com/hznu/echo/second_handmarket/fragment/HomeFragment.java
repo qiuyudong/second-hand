@@ -90,7 +90,8 @@ public class HomeFragment extends BaseFragment {
     private void getData() {
         BmobQuery<Second_Goods> query = new BmobQuery<Second_Goods>();
         query.include("upload_user");
-
+        query.addWhereEqualTo("state",1);
+        query.order("-createdAt");
         query.findObjects(new FindListener<Second_Goods>() {
             @Override
             public void done(List<Second_Goods> list, BmobException e) {

@@ -1,11 +1,14 @@
 package com.hznu.echo.second_handmarket.base.IM.adapter.base;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 
 /**
@@ -16,10 +19,12 @@ public class BaseRecyclerHolder extends RecyclerView.ViewHolder {
 
     private final SparseArray<View> mViews;
     public  int layoutId;
+    public Context context;
 
-    public BaseRecyclerHolder(int layoutId,View itemView) {
+    public BaseRecyclerHolder(int layoutId,View itemView, Context context) {
         super(itemView);
         this.layoutId =layoutId;
+        this.context = context;
         this.mViews = new SparseArray<>(8);
     }
 
@@ -116,7 +121,9 @@ public class BaseRecyclerHolder extends RecyclerView.ViewHolder {
      */
     public BaseRecyclerHolder setImageView(String avatar, int defaultRes, int viewId) {
         ImageView iv = getView(viewId);
-//        ImageLoaderFactory.getLoader().loadAvator(iv,avatar, defaultRes);
+        Picasso.with(context)
+                .load(avatar)
+                .into(iv);
         return this;
     }
 }

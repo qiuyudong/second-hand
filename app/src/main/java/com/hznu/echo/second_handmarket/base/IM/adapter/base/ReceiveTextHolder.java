@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hznu.echo.second_handmarket.R;
+import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 
@@ -43,12 +44,11 @@ public class ReceiveTextHolder extends BaseViewHolder {
         String time = dateFormat.format(message.getCreateTime());
         tv_time.setText(time);
         final BmobIMUserInfo info = message.getBmobIMUserInfo();
- //       Log.e("SSS",   info.getName() );
-//        if (info.getAvatar() !=null ){
-//            Picasso.with(context)
-//                    .load(info.getAvatar())
-//                    .into(iv_avatar);
-//        }
+        if (info.getAvatar() !=null ){
+            Picasso.with(context)
+                    .load(info.getAvatar())
+                    .into(iv_avatar);
+        }
         String content = message.getContent();
         tv_message.setText(content);
         iv_avatar.setOnClickListener(new View.OnClickListener() {

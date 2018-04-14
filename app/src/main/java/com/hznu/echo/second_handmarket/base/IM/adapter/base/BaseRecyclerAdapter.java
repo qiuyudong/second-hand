@@ -19,7 +19,6 @@ import java.util.List;
  * 支持设置recycler view点击/长按事件
  * @param <T>
  * @author wengqian
- * @link https://github.com/bodismile/BaseRecyclerAdapter
  */
 public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseRecyclerHolder> {
     /**
@@ -101,7 +100,7 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseRe
         int layoutId = items.getItemLayoutId(viewType);
         LayoutInflater inflater = LayoutInflater.from(context);
         View root = inflater.inflate(layoutId, parent, false);
-        return new BaseRecyclerHolder(layoutId, root);
+        return new BaseRecyclerHolder(layoutId, root, context);
     }
 
     @Override

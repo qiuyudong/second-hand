@@ -242,6 +242,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         BmobQuery<Second_Goods> query = new BmobQuery<Second_Goods>();
         query.include("upload_user");
         query.order("-createdAt");
+        query.addWhereEqualTo("state",1);
         query.findObjects(new FindListener<Second_Goods>() {
             @Override
             public void done(List<Second_Goods> list, BmobException e) {
@@ -267,6 +268,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         BmobQuery<Second_Goods> query = new BmobQuery<Second_Goods>();
         query.include("upload_user");
         query.order("-liked_number");
+        query.addWhereEqualTo("state",1);
         query.findObjects(new FindListener<Second_Goods>() {
             @Override
             public void done(List<Second_Goods> list, BmobException e) {
