@@ -119,29 +119,19 @@ public class ClassificationActivity extends AppCompatActivity {
     // 获取数据
     private void getData() {
         BmobQuery<Second_Goods> query = new BmobQuery<Second_Goods>();
-        BmobQuery<Second_Goods> query1 = new BmobQuery<Second_Goods>();
         query.addWhereEqualTo("type", type);
         query.include("upload_user");
-        query1.addWhereEqualTo("state",1);
-        query.order("-createdAt");
-        List<BmobQuery<Second_Goods>> andQuerys = new ArrayList<>();
-        andQuerys.add(query);
-        andQuerys.add(query1);
-        BmobQuery<Second_Goods> mainquery = new BmobQuery<>();
-        mainquery.and(andQuerys);
-        mainquery.findObjects(new FindListener<Second_Goods>() {
+        query.findObjects(new FindListener<Second_Goods>() {
             @Override
-            public void done(List<Second_Goods> object, BmobException e) {
+            public void done(List<Second_Goods> list, BmobException e) {
                 if (e == null) {
-                    ToastUtil.showAndCancel("查询成功");
-                    dialog.dismiss();
-                    mSecond_goodses = new ArrayList<>(object);
-                    initButton();
-                    //初始化构造器
-                    Adapter = new TaskAdapter(mSecond_goodses);
-                    goodsRecyclerView.setAdapter(Adapter);
                     RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(ClassificationActivity.this);
                     goodsRecyclerView.setLayoutManager(layoutManager);
+                    ToastUtil.showAndCancel("查询成功");
+                    dialog.dismiss();
+                    mSecond_goodses = new ArrayList<Second_Goods>(list);
+                    initButton();
+                    filterState(mSecond_goodses);
                 } else {
                     ToastUtil.showAndCancel(e.toString());
                 }
@@ -159,32 +149,22 @@ public class ClassificationActivity extends AppCompatActivity {
 
     private void refreshDate() {
         BmobQuery<Second_Goods> query = new BmobQuery<Second_Goods>();
-        BmobQuery<Second_Goods> query1 = new BmobQuery<Second_Goods>();
         query.addWhereEqualTo("type", type);
         query.include("upload_user");
-        query1.addWhereEqualTo("state",1);
-        query.order("-createdAt");
-        List<BmobQuery<Second_Goods>> andQuerys = new ArrayList<>();
-        andQuerys.add(query);
-        andQuerys.add(query1);
-        BmobQuery<Second_Goods> mainquery = new BmobQuery<>();
-        mainquery.and(andQuerys);
-        mainquery.findObjects(new FindListener<Second_Goods>() {
+        query.findObjects(new FindListener<Second_Goods>() {
             @Override
-            public void done(List<Second_Goods> object, BmobException e) {
+            public void done(List<Second_Goods> list, BmobException e) {
                 if (e == null) {
                     ToastUtil.showAndCancel("查询成功");
                     dialog.dismiss();
-                    mSecond_goodses = new ArrayList<>(object);
-                    initButton();
+                    mSecond_goodses = new ArrayList<Second_Goods>(list);
                     //初始化构造器
-                    Adapter = new TaskAdapter(mSecond_goodses);
-                    goodsRecyclerView.setAdapter(Adapter);
-                    Adapter.notifyDataSetChanged();
+                    filterState(mSecond_goodses);
                     swipeRefresh.setRefreshing(false);
                 } else {
                     ToastUtil.showAndCancel(e.toString());
-                    swipeRefresh.setRefreshing(false);                }
+                    swipeRefresh.setRefreshing(false);
+                }
             }
         });
     }
@@ -292,10 +272,7 @@ public class ClassificationActivity extends AppCompatActivity {
                     ToastUtil.showAndCancel("查询成功");
                     dialog.dismiss();
                     mSecond_goodses = new ArrayList<Second_Goods>(list);
-                    //初始化构造器
-                    Adapter = new TaskAdapter(mSecond_goodses);
-                    goodsRecyclerView.setAdapter(Adapter);
-                    Adapter.notifyDataSetChanged();
+                    filterState(mSecond_goodses);
                     likedDesc = !likedDesc;
                 } else {
                     ToastUtil.showAndCancel(e.toString());
@@ -322,9 +299,7 @@ public class ClassificationActivity extends AppCompatActivity {
                     dialog.dismiss();
                     mSecond_goodses = new ArrayList<Second_Goods>(list);
                     //初始化构造器
-                    Adapter = new TaskAdapter(mSecond_goodses);
-                    goodsRecyclerView.setAdapter(Adapter);
-                    Adapter.notifyDataSetChanged();
+                    filterState(mSecond_goodses);
                     timeDesc = !timeDesc;
                 } else {
                     ToastUtil.showAndCancel(e.toString());
@@ -351,9 +326,7 @@ public class ClassificationActivity extends AppCompatActivity {
                     dialog.dismiss();
                     mSecond_goodses = new ArrayList<Second_Goods>(list);
                     //初始化构造器
-                    Adapter = new TaskAdapter(mSecond_goodses);
-                    goodsRecyclerView.setAdapter(Adapter);
-                    Adapter.notifyDataSetChanged();
+                    filterState(mSecond_goodses);
                     priceDesc = !priceDesc;
                 } else {
                     ToastUtil.showAndCancel(e.toString());
@@ -386,4 +359,15 @@ public class ClassificationActivity extends AppCompatActivity {
         goodsRecyclerView.setAdapter(Adapter);
     }
 
+    private void filterState (List<Second_Goods> mSecond_goodses){
+        List<Second_Goods>  filtersecond_goods = new ArrayList<>();
+        for(Second_Goods second_goods: mSecond_goodses) {
+            if(second_goods.getState() == 1){
+                filtersecond_goods.add(second_goods);
+            }
+        }
+        //初始化构造器
+        Adapter = new TaskAdapter(filtersecond_goods);
+        goodsRecyclerView.setAdapter(Adapter);
+    }
 }

@@ -53,7 +53,6 @@ public class GoodsInformationActivity extends AppCompatActivity {
         dialog.show();
         msecond_goods = (Second_Goods) getIntent().getSerializableExtra("second_goods");
         goodsInfo.setLayoutManager(new LinearLayoutManager(GoodsInformationActivity.this, LinearLayoutManager.VERTICAL, false));
-        Log.e("bmob", msecond_goods.toString());
         BmobQuery<Goods_Comment> query = new BmobQuery<>();
         query.addWhereEqualTo("current_goods", msecond_goods);  // 查询当前物品的所有评论
         query.order("updatedAt");

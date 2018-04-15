@@ -250,9 +250,6 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     goodslist.clear();
                     goodslist = new ArrayList<>(list);
                     Log.e("time", goodslist.size()+"" );
-                    for(Second_Goods second_goods: goodslist){
-                        Log.e("time", second_goods.getCreatedAt());
-                    }
                     notifyDataSetChanged();
                     dialog.dismiss();
                 } else {

@@ -36,9 +36,9 @@ import cn.bmob.newim.event.OfflineMessageEvent;
 /**
  * 会话界面
  *
- * @author :smile
+ * @author :wengqian
  * @project:ConversationFragment
- * @date :2016-01-25-18:23
+ * @date :2018-01-25-18:23
  */
 public class ConversationFragment extends BaseFragment {
 

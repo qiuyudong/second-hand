@@ -69,4 +69,13 @@ public class MessageActivity extends AppCompatActivity {
         }
 
     }
+    //返回
+    @Override
+    public void onBackPressed() {
+        msecond_goods = (Second_Goods) getIntent().getSerializableExtra("second_goods");
+        Intent intent = new Intent(MessageActivity.this, GoodsInformationActivity.class);
+        intent.putExtra("second_goods", msecond_goods);
+        startActivity(intent);
+        finish();
+    }
 }

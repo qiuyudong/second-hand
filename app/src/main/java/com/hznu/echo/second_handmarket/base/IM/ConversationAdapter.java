@@ -14,7 +14,7 @@ import java.util.Collection;
 import cn.bmob.newim.bean.BmobIMConversationType;
 
 /**
- * 使用进一步封装的Conversation,教大家怎么自定义会话列表
+ * 使用进一步封装的Conversation, 来自定义会话列表
  * @author wengqian
  */
 public class ConversationAdapter extends BaseRecyclerAdapter<Conversation> {

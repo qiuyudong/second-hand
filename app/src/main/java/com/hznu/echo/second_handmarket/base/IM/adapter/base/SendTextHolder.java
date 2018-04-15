@@ -49,7 +49,7 @@ public class SendTextHolder extends BaseViewHolder implements View.OnClickListen
         final BmobIMMessage message = (BmobIMMessage) o;
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         final BmobIMUserInfo info = message.getBmobIMUserInfo();
-        if (info.getAvatar() !=null ){
+        if (info !=null ){
             Picasso.with(context)
                     .load(info.getAvatar())
                     .into(iv_avatar);

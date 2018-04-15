@@ -2,6 +2,7 @@ package com.hznu.echo.second_handmarket.base.IM.adapter.base;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
@@ -115,6 +116,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        Log.d("sdsdsd", "onBindViewHolder: " + msgs.size());
         ((BaseViewHolder)holder).bindData(msgs.get(position));
         if (holder instanceof ReceiveTextHolder) {
             ((ReceiveTextHolder)holder).showTime(shouldShowTime(position));

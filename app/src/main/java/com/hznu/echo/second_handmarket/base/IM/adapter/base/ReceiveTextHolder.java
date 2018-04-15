@@ -44,7 +44,7 @@ public class ReceiveTextHolder extends BaseViewHolder {
         String time = dateFormat.format(message.getCreateTime());
         tv_time.setText(time);
         final BmobIMUserInfo info = message.getBmobIMUserInfo();
-        if (info.getAvatar() !=null ){
+        if (info != null) {
             Picasso.with(context)
                     .load(info.getAvatar())
                     .into(iv_avatar);
